@@ -1,7 +1,5 @@
 <script lang="ts">
-	import { ThemeToggle } from '@foxui/core';
 	import { MarkdownText, SingleRecord } from './website/components';
-	import { base } from '$app/paths';
 
 	let { handle, did }: { handle: string; did: string } = $props();
 
@@ -76,8 +74,6 @@
 		mouseDeltaY: 0
 	});
 </script>
-
-<ThemeToggle class="fixed top-2 left-2 z-10" />
 
 <div class="flex px-12 py-24 md:fixed md:h-screen md:w-1/3">
 	<div class="flex flex-col gap-4">

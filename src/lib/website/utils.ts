@@ -18,24 +18,42 @@ export async function loadData(handle: string) {
 
 	const downloadedData = {} as DownloadedData;
 
+	const promises: { collection: string; rkey?: string; record: ListRecord }[] = [];
+
 	for (const collection of Object.keys(data) as Collection[]) {
 		const cfg = data[collection];
 
 		try {
 			if (Array.isArray(cfg)) {
 				for (const rkey of cfg) {
-					const record = await getRecord({ did, collection, rkey });
-					downloadedData[collection] ??= {} as Record<string, ListRecord>;
-					downloadedData[collection][rkey] = record;
+					const record = getRecord({ did, collection, rkey });
+					promises.push({
+						collection,
+						rkey,
+						record
+					});
 				}
 			} else if (cfg === 'all') {
-				const records = await listRecords({ did, collection });
-				downloadedData[collection] = records;
+				const records = listRecords({ did, collection });
+				promises.push({ collection, record: records });
 			}
 		} catch (error) {
 			console.error('failed getting', collection, cfg, error);
 		}
 	}
+
+	await Promise.all(promises.map((v) => v.record));
+
+	for (const promise of promises) {
+		if (promise.rkey) {
+			downloadedData[promise.collection] ??= {} as Record<string, ListRecord>;
+			downloadedData[promise.collection][promise.rkey] = await promise.record;
+		} else {
+			downloadedData[promise.collection] ??= await promise.record;
+		}
+	}
+
+	console.log(downloadedData);
 
 	return { did, data: JSON.parse(JSON.stringify(downloadedData)) as DownloadedData };
 }
