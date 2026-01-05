@@ -1,10 +1,13 @@
 # todo
 
 - video card
-- github card
-- instagram card
 - edit already created cards (e.g. change link)
 - link card: save favicon and og image to pds
+- more cards:
+    - instagram
+    - github
+    - bluesky account
+    - bluesky post
 
 
 - allow setting custom base and accent color
