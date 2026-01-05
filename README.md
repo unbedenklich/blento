@@ -11,7 +11,7 @@ made with svelte, tailwind.
 
 - fork this repo
 - create a cloudflare worker application and connect it to your fork
-- change the vars in `wranger.jsonc`
+- change the vars in `wrangler.jsonc`
 
 ```json
 	"vars": {
