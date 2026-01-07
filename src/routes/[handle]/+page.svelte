@@ -1,13 +1,13 @@
 <script lang="ts">
 	import { page } from '$app/state';
-	import { setRecentRecords } from '$lib/helper.js';
+	import { setAdditionalUserData } from '$lib/helper.js';
 	import { type Item } from '$lib/types.js';
 	import Website from '$lib/Website.svelte';
 
 	let { data } = $props();
 
 	// svelte-ignore state_referenced_locally
-	setRecentRecords(data.recentRecords);
+	setAdditionalUserData(data.additionalData);
 </script>
 
 <Website

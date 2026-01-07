@@ -147,4 +147,4 @@ export const [getIsMobile, setIsMobile] = createContext<() => boolean>();
 
 export const [getCanEdit, setCanEdit] = createContext<() => boolean>();
 
-export const [getRecentRecords, setRecentRecords] = createContext();
+export const [getAdditionalUserData, setAdditionalUserData] = createContext();

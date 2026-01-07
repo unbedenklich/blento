@@ -106,7 +106,7 @@
 				</div>
 			{/if}
 		{/if}
-		<div class="hidden text-xs font-light @5xl/wrapper:flex">
+		<div class="hidden text-xs font-light @5xl/wrapper:block">
 			made with <a
 				href="https://blento.app"
 				target="_blank"

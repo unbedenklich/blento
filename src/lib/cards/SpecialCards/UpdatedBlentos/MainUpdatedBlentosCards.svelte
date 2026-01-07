@@ -1,10 +1,10 @@
 <script lang="ts">
-	import { getRecentRecords } from '$lib/helper';
+	import { getAdditionalUserData } from '$lib/helper';
 	import { getProfile } from '$lib/oauth/atproto';
 	import type { ProfileViewDetailed } from '@atproto/api/dist/client/types/app/bsky/actor/defs';
 	import { onMount } from 'svelte';
 
-	const recentRecords = getRecentRecords();
+	const recentRecords = getAdditionalUserData().recentRecords;
 
 	let profiles: ProfileViewDetailed[] = $state([]);
 

@@ -1,3 +1,4 @@
+import { BlueskyPostCardDefinition } from './BlueskyPostCard';
 import { ImageCardDefinition } from './ImageCard';
 import { LinkCardDefinition } from './LinkCard';
 import { UpdatedBlentosCardDefitition } from './SpecialCards/UpdatedBlentos';
@@ -10,7 +11,8 @@ export const AllCardDefinitions = [
 	TextCardDefinition,
 	LinkCardDefinition,
 	UpdatedBlentosCardDefitition,
-	YoutubeCardDefinition
+	YoutubeCardDefinition,
+	BlueskyPostCardDefinition
 ] as const;
 
 export const CardDefinitionsByType = AllCardDefinitions.reduce(

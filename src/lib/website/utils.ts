@@ -8,6 +8,7 @@ import { getRecord, listRecords, resolveHandle } from '$lib/oauth/atproto';
 import type { Record as ListRecord } from '@atproto/api/dist/client/types/com/atproto/repo/listRecords';
 import { data } from './data';
 import { client } from '$lib/oauth';
+import { AtpBaseClient } from '@atproto/api';
 
 export function parseUri(uri: string) {
 	const [did, collection, rkey] = uri.split('/').slice(2);
@@ -69,8 +70,12 @@ export async function loadData(handle: string) {
 		}
 	}
 
+	const cardTypes = new Set(
+		Object.values(downloadedData['app.blento.card']).map((v) => v.value.cardType)
+	);
+
 	let recentRecords;
-	if (handle === 'blento.app') {
+	if (cardTypes.has('updatedBlentos')) {
 		try {
 			// https://ufos-api.microcosm.blue/records?collection=app.blento.card
 			const response = await fetch(
@@ -82,7 +87,31 @@ export async function loadData(handle: string) {
 		}
 	}
 
-	return { did, data: JSON.parse(JSON.stringify(downloadedData)) as DownloadedData, recentRecords };
+	let recentPosts;
+
+	if (cardTypes.has('latestPost')) {
+		try {
+			const agent = new AtpBaseClient({ service: 'https://api.bsky.app' });
+			const authorFeed = await agent.app.bsky.feed.getAuthorFeed({
+				actor: did,
+				filter: 'posts_no_replies',
+				limit: 2
+			});
+			console.log(authorFeed.data);
+			recentPosts = JSON.parse(JSON.stringify(authorFeed.data));
+		} catch (error) {
+			console.error('failed to fetch recent posts', error);
+		}
+	}
+
+	return {
+		did,
+		data: JSON.parse(JSON.stringify(downloadedData)) as DownloadedData,
+		additionalData: {
+			recentRecords,
+			recentPosts
+		}
+	};
 }
 
 export async function uploadBlob(blob: Blob) {
