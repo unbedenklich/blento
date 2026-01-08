@@ -29,6 +29,9 @@ importers:
       '@foxui/social':
         specifier: ^0.4.7
         version: 0.4.7(svelte@5.45.8)(tailwindcss@4.1.5)
+      '@foxui/time':
+        specifier: ^0.4.7
+        version: 0.4.7(svelte@5.45.8)(tailwindcss@4.1.5)
       '@tailwindcss/typography':
         specifier: ^0.5.16
         version: 0.5.16(tailwindcss@4.1.5)

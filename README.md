@@ -6,18 +6,10 @@ your personal website in a bento style layout, using your bluesky PDS as a backe
 
 made with svelte, tailwind.
 
-## Selfhosting with cloudflare workers
+## Selfhosting
 
-- fork this repo
-- create a cloudflare worker application and connect it to your fork
-- change the vars in `wrangler.jsonc`
+See [docs/Selfhosting](./docs/Selfhosting.md).
 
-```json
-	"vars": {
-		"PUBLIC_HANDLE": "your-bluesky-handle",
-		"PUBLIC_IS_SELFHOSTED": "true",
-		"PUBLIC_DOMAIN": "https://your-cloudflare-worker-or-custom-domain.com"
-	}
-```
+## Making Custom cards
 
-DONE :) your blento should be live after a minute or two at `your-cloudflare-worker-or-custom-domain.com` and you can edit it by signing in with your bluesky account at `your-cloudflare-worker-or-custom-domain.com/edit`
+See [docs/CustomCards](./docs/CustomCards.md)

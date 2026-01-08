@@ -48,6 +48,7 @@
 		"@foxui/colors": "^0.4.7",
 		"@foxui/core": "^0.4.7",
 		"@foxui/social": "^0.4.7",
+		"@foxui/time": "^0.4.7",
 		"@tailwindcss/typography": "^0.5.16",
 		"@tiptap/core": "^2.12.0",
 		"@tiptap/extension-document": "^2.12.0",

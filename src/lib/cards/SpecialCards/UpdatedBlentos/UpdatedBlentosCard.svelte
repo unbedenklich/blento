@@ -12,19 +12,15 @@
 	let profiles: ProfileViewDetailed[] = $state([]);
 
 	onMount(async () => {
-		console.log(recentRecords);
 		let uniqueDids = new Set<string>();
 		for (let record of recentRecords as { did: string }[]) {
 			uniqueDids.add(record.did);
 		}
-		console.log(uniqueDids, Array.from(uniqueDids));
 
 		for (let did of Array.from(uniqueDids)) {
-			console.log(did);
 			const profile = await getProfile({ did });
 			profiles.push(profile);
-
-			if (profiles.length > 9) return;
+			if (profiles.length > 20) return;
 		}
 	});
 </script>

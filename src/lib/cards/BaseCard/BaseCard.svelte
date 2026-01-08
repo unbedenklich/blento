@@ -6,9 +6,9 @@
 	import type { HTMLAttributes } from 'svelte/elements';
 
 	const colors = {
-		'base': 'border-base-200 bg-base-50 dark:border-base-800 dark:bg-base-900 border',
-		'accent': 'border-accent-200 bg-accent-50 dark:border-accent-900/50 dark:bg-accent-950/50 border',
-		'transparent': ''
+		base: 'border-base-200 bg-base-50 dark:border-base-800 dark:bg-base-900 border',
+		accent: 'border-accent-200 bg-accent-50 dark:border-accent-900/50 dark:bg-accent-950/50 border',
+		transparent: ''
 	} as Record<string, string>;
 
 	export type BaseCardProps = {
@@ -33,21 +33,23 @@
 	bind:this={ref}
 	draggable={isEditing}
 	class={[
-		'card group focus-within:outline-accent-500 absolute z-0 rounded-2xl outline-offset-2 focus-within:outline-2',
-		item.color ? colors[item.color] ?? colors.accent : colors.base,
-		item.color !== 'accent' && item.color !== 'base' && item.color !== 'transparent' ? item.color : ''
+		'card group focus-within:outline-accent-500 @container/card absolute z-0 rounded-2xl outline-offset-2 focus-within:outline-2',
+		item.color ? (colors[item.color] ?? colors.accent) : colors.base,
+		item.color !== 'accent' && item.color !== 'base' && item.color !== 'transparent'
+			? item.color
+			: ''
 	]}
 	style={`
-    --mx: ${item.mobileX};
-    --my: ${item.mobileY};
-    --mw: ${item.mobileW};
-    --mh: ${item.mobileH};
+    --mx: ${item.mobileX * 2};
+    --my: ${item.mobileY * 2};
+    --mw: ${item.mobileW * 2};
+    --mh: ${item.mobileH * 2};
     --mm: ${mobileMargin}px;
 
-    --dx: ${item.x};
-    --dy: ${item.y};
-    --dw: ${item.w};
-    --dh: ${item.h};
+    --dx: ${item.x * 2};
+    --dy: ${item.y * 2};
+    --dw: ${item.w * 2};
+    --dh: ${item.h * 2};
     --dm: ${margin}px;`}
 	{...rest}
 >
@@ -59,17 +61,17 @@
 
 <style>
 	.card {
-		translate: calc((var(--mx) / 4) * 100cqw + var(--mm)) calc((var(--my) / 4) * 100cqw + var(--mm));
-		width: calc((var(--mw) / 4) * 100cqw - (var(--mm) * 2));
-		height: calc((var(--mh) / 4) * 100cqw - (var(--mm) * 2));
+		translate: calc((var(--mx) / 8) * 100cqw + var(--mm)) calc((var(--my) / 8) * 100cqw + var(--mm));
+		width: calc((var(--mw) / 8) * 100cqw - (var(--mm) * 2));
+		height: calc((var(--mh) / 8) * 100cqw - (var(--mm) * 2));
 	}
 
 	@container wrapper (width >= 64rem) {
 		.card {
-			translate: calc((var(--dx) / 4) * 100cqw + var(--dm))
-				calc((var(--dy) / 4) * 100cqw + var(--dm));
-			width: calc((var(--dw) / 4) * 100cqw - (var(--dm) * 2));
-			height: calc((var(--dh) / 4) * 100cqw - (var(--dm) * 2));
+			translate: calc((var(--dx) / 8) * 100cqw + var(--dm))
+				calc((var(--dy) / 8) * 100cqw + var(--dm));
+			width: calc((var(--dw) / 8) * 100cqw - (var(--dm) * 2));
+			height: calc((var(--dh) / 8) * 100cqw - (var(--dm) * 2));
 		}
 	}
 </style>

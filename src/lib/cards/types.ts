@@ -9,8 +9,8 @@ export type CreationModalComponentProps = {
 
 export type SettingsModalComponentProps = {
 	item: Item;
-	onSave: (item: Item) => void;
-	onCancel: () => void;
+	onsave: (item: Item) => void;
+	oncancel: () => void;
 };
 
 export type SidebarComponentProps = {
@@ -22,16 +22,15 @@ export type ContentComponentProps = {
 };
 
 export type CardDefinition = {
+	type: string;
 	contentComponent: Component<ContentComponentProps>;
 	editingContentComponent?: Component<ContentComponentProps>;
 
 	createNew?: (item: Item) => void;
+
 	creationModalComponent?: Component<CreationModalComponentProps>;
-	settingsModalComponent?: Component<{
-		item: Item;
-		onSave: (item: Item) => void;
-		onCancel: () => void;
-	}>;
+
+	settingsModalComponent?: Component<SettingsModalComponentProps>;
 
 	upload?: (item: Item) => Promise<Item>;
 

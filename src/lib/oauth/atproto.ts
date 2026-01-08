@@ -38,11 +38,13 @@ export async function getProfile({ agent, did }: { agent?: AtpBaseClient; did: s
 export async function listRecords({
 	did,
 	collection,
-	cursor
+	cursor,
+	limit = 100
 }: {
 	did: string;
 	collection: string;
 	cursor?: string;
+	limit?: number;
 }) {
 	const pds = await getPDS(did);
 
@@ -51,7 +53,7 @@ export async function listRecords({
 	const room = await agent.com.atproto.repo.listRecords({
 		repo: did,
 		collection,
-		limit: 100,
+		limit,
 		cursor
 	});
 

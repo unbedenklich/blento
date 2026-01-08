@@ -63,7 +63,7 @@
 
 	setIsMobile(() => isMobile);
 
-	setCanEdit(() => client.isLoggedIn && client.profile?.did === did);
+	setCanEdit(() => dev || (client.isLoggedIn && client.profile?.did === did));
 
 	// svelte-ignore state_referenced_locally
 	setDidContext(did);
@@ -329,12 +329,14 @@
 </div>
 
 <Sidebar mobileOnly mobileClasses="lg:block p-4">
-	{#each sidebarItems as cardDef}
-		<cardDef.sidebarComponent onclick={() => newCard(cardDef.type)} />
-	{/each}
+	<div>
+		{#each sidebarItems as cardDef}
+			<cardDef.sidebarComponent onclick={() => newCard(cardDef.type)} />
+		{/each}
+	</div>
 </Sidebar>
 
-{#if (!client.isLoggedIn && !client.isInitializing) || client.profile?.did === did}
+{#if dev || (!client.isLoggedIn && !client.isInitializing) || client.profile?.did === did}
 	<Navbar
 		class={[
 			'dark:bg-base-900 bg-base-100 top-auto bottom-2 mx-4 mt-3 max-w-3xl rounded-full px-4 md:mx-auto lg:inline-flex',
