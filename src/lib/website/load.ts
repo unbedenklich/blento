@@ -20,21 +20,26 @@ export async function loadData(
 	additionalData: Record<string, unknown>;
 	updatedAt: number;
 }> {
+	console.log(handle);
 	if (!forceUpdate) {
-		const cachedResult = await platform?.env?.USER_DATA_CACHE?.get(handle);
+		try {
+			const cachedResult = await platform?.env?.USER_DATA_CACHE?.get(handle);
 
-		if (cachedResult) {
-			const result = JSON.parse(cachedResult);
-			const update = result.updatedAt;
-			const timePassed = (Date.now() - update) / 1000;
-			console.log(
-				'using cached result for handle',
-				handle,
-				'last update',
-				timePassed,
-				'seconds ago'
-			);
-			return JSON.parse(cachedResult);
+			if (cachedResult) {
+				const result = JSON.parse(cachedResult);
+				const update = result.updatedAt;
+				const timePassed = (Date.now() - update) / 1000;
+				console.log(
+					'using cached result for handle',
+					handle,
+					'last update',
+					timePassed,
+					'seconds ago'
+				);
+				return JSON.parse(cachedResult);
+			}
+		} catch (error) {
+			console.log('getting cached result failed', error);
 		}
 	}
 
@@ -54,7 +59,9 @@ export async function loadData(
 		try {
 			if (Array.isArray(cfg)) {
 				for (const rkey of cfg) {
-					const record = getRecord({ did, collection, rkey });
+					const record = getRecord({ did, collection, rkey }).catch((error) => {
+						console.error('error getting record', rkey, 'for collection', collection);
+					});
 					promises.push({
 						collection,
 						rkey,
@@ -62,7 +69,9 @@ export async function loadData(
 					});
 				}
 			} else if (cfg === 'all') {
-				const records = listRecords({ did, collection });
+				const records = listRecords({ did, collection }).catch((error) => {
+					console.error('error getting records for collection', collection);
+				});
 				promises.push({ collection, record: records });
 			}
 		} catch (error) {
@@ -102,12 +111,16 @@ export async function loadData(
 		const cardDef = CardDefinitionsByType[cardType];
 
 		if (cardDef.loadData) {
-			additionDataPromises[cardType] = cardDef.loadData(
-				Object.values(downloadedData['app.blento.card'])
-					.filter((v) => cardType == v.value.cardType)
-					.map((v) => v.value) as Item[],
-				loadOptions
-			);
+			additionDataPromises[cardType] = cardDef
+				.loadData(
+					Object.values(downloadedData['app.blento.card'])
+						.filter((v) => cardType == v.value.cardType)
+						.map((v) => v.value) as Item[],
+					loadOptions
+				)
+				.catch((error) => {
+					console.error('error getting additional data for', cardType, error);
+				});
 		}
 	}
 

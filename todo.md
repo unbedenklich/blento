@@ -3,9 +3,12 @@
 - video card
 - edit already created cards (e.g. change link)
 - link card: save favicon and og image to pds
-- more cards list
+- [x] more cards list
 - paste handler for card creation
 - text cards: align text top middle bottom and left center right
+- change general settings:
+    - show profile
+    - base, accent color
 - more cards:
     - instagram
     - github
@@ -27,7 +30,8 @@
     - popfeed.social
     - smoke signal
     - statusphere.xyz
-- add some caching to user data
+
+- [x] add some caching to user data
 
 - other fun card ideas:
     - svader

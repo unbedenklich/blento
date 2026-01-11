@@ -15,4 +15,6 @@
 	did={data.did}
 	{data}
 	items={Object.values(data.data['app.blento.card']).map((i) => i.value) as Item[]}
+
+	settings={data.data['app.blento.settings']?.['self']?.value}
 />
