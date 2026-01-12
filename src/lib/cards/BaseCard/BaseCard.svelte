@@ -37,7 +37,7 @@
 	bind:this={ref}
 	draggable={isEditing}
 	class={[
-		'card group focus-within:outline-accent-500 @container/card absolute z-0 rounded-2xl outline-offset-2 transition-transform duration-200 focus-within:outline-2',
+		'card group focus-within:outline-accent-500 @container/card absolute z-0 rounded-2xl outline-offset-2 transition-all duration-200 focus-within:outline-2',
 		color ? (colors[color] ?? colors.accent) : colors.base,
 		color !== 'accent' && item.color !== 'base' && item.color !== 'transparent' ? color : ''
 	]}

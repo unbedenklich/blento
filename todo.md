@@ -31,6 +31,7 @@
     - popfeed.social
     - smoke signal
     - statusphere.xyz
+    - goals.garden
 
 - [x] add some caching to user data
 

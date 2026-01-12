@@ -12,6 +12,8 @@
 
 	let mediaList: { fullsize: string; isVideo?: boolean; playlist?: string }[] = $state([]);
 
+	let isLoading = $state(true);
+
 	onMount(async () => {
 		const agent = new AtpBaseClient({ service: 'https://api.bsky.app' });
 		const authorFeed = await agent.app.bsky.feed.getAuthorFeed({
@@ -19,8 +21,6 @@
 			filter: 'posts_with_media',
 			limit: 100
 		});
-
-		console.log(authorFeed);
 
 		for (let post of authorFeed.data.feed) {
 			for (let image of post.post.embed?.images ?? []) {
@@ -34,6 +34,8 @@
 				});
 			}
 		}
+
+		isLoading = false;
 	});
 
 	let selected = $state();
@@ -52,7 +54,7 @@
 	<Subheading>Select an image or video</Subheading>
 
 	<div
-		class="bg-base-100 dark:bg-base-950 grid h-[50dvh] grow grid-cols-3 gap-4 overflow-y-scroll rounded-2xl p-4"
+		class="bg-base-100 dark:bg-base-950 grid h-[50dvh] grid-cols-2 lg:grid-cols-3 gap-4 overflow-y-scroll rounded-2xl p-4"
 	>
 		{#each mediaList as media}
 			<button
@@ -71,7 +73,7 @@
 					src={media.fullsize ?? media.thumbnail}
 					alt=""
 					class={[
-						'h-24 w-full rounded-xl object-cover',
+						'h-32 w-full rounded-xl object-cover',
 						selected === media
 							? 'outline-accent-500 opacity-100 outline-2 -outline-offset-2'
 							: 'opacity-80'
@@ -83,20 +85,23 @@
 							xmlns="http://www.w3.org/2000/svg"
 							viewBox="0 0 24 24"
 							fill="currentColor"
-							class="text-accent-500 size-6"
+							class="size-6 text-accent-500"
 						>
 							<path
-								fill-rule="evenodd"
-								d="M4.5 5.653c0-1.427 1.529-2.33 2.779-1.643l11.54 6.347c1.295.712 1.295 2.573 0 3.286L7.28 19.99c-1.25.687-2.779-.217-2.779-1.643V5.653Z"
-								clip-rule="evenodd"
+								d="M4.5 4.5a3 3 0 0 0-3 3v9a3 3 0 0 0 3 3h8.25a3 3 0 0 0 3-3v-9a3 3 0 0 0-3-3H4.5ZM19.94 18.75l-2.69-2.69V7.94l2.69-2.69c.944-.945 2.56-.276 2.56 1.06v11.38c0 1.336-1.616 2.005-2.56 1.06Z"
 							/>
 						</svg>
 					</div>
 				{/if}
 			</button>
 		{/each}
-		{#if mediaList.length === 0}
-			<span class="col-span-3 p-4 text-lg italic">Loading your media...</span>{/if}
+		{#if isLoading}
+			<span class="col-span-full p-4 text-lg italic">Loading your media...</span>
+		{:else if mediaList.length === 0}
+			<span class="col-span-full p-4 text-lg italic"
+				>No media found, upload an image or video to bluesky to see it here.</span
+			>
+		{/if}
 	</div>
 
 	<Label class="mt-4">Link (optional):</Label>

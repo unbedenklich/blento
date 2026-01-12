@@ -27,7 +27,7 @@
 			item.cardData.href ? 'group-hover:scale-102' : ''
 		]}
 		src={item.cardData.image.fullsize}
-		alt=""
+		alt={item.cardData.image.alt}
 	/>
 {:else if item.cardData.video}
 	<Video video={item.cardData.video} />

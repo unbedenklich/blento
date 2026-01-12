@@ -20,7 +20,7 @@ export const SectionCardDefinition = {
 		card.mobileW = COLUMNS;
 	},
 
-	sidebarButtonText: 'section',
+	sidebarButtonText: 'Section Headline',
 	defaultColor: 'transparent',
 	maxH: 1
 } as CardDefinition & { type: 'section' };
