@@ -24,7 +24,7 @@
 <Head
 	favicon={'https://cdn.bsky.app/img/avatar/plain/' + did + '/' + profileData?.avatar.ref.$link}
 	title={profileData?.displayName || handle}
-	image={'https://blento.app/' + handle + '/og.png'}
+	image={'/' + handle + '/og.png'}
 />
 
 <!-- lg:fixed lg:h-screen lg:w-1/4 lg:max-w-none lg:px-12 lg:pt-24 xl:w-1/3 -->
