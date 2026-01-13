@@ -32,6 +32,7 @@
 	muted
 	loop
 	autoplay
+	playsinline
 	class="absolute inset-0 h-full w-full object-cover"
 	aria-label={video.alt}
 ></video>

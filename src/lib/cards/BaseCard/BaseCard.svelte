@@ -7,9 +7,9 @@
 	import { getColor } from '..';
 
 	const colors = {
-		base: 'border-base-300 shadow-lg dark:shadow-none inset-shadow-sm inset-shadow-base-500/10 shadow-base-900/5 bg-base-50 dark:border-base-700 dark:bg-base-900 border',
+		base: 'border-base-300 shadow-lg dark:shadow-none inset-shadow-sm inset-shadow-base-500/10 shadow-base-900/5 bg-base-50 dark:border-base-700 dark:bg-base-900/30 border',
 		accent:
-			'border-accent-300 shadow-lg inset-shadow-sm inset-shadow-accent-500/10 shadow-accent-900/10 bg-accent-50 dark:border-accent-900 dark:bg-accent-950/20 border',
+			'border-accent-300 shadow-lg inset-shadow-sm inset-shadow-accent-500/10 shadow-accent-900/10 bg-accent-50 dark:border-accent-900 dark:bg-accent-900/10 border dark:inset-shadow-accent-500/20',
 		transparent: ''
 	} as Record<string, string>;
 
@@ -39,7 +39,7 @@
 	bind:this={ref}
 	draggable={isEditing}
 	class={[
-		'card group focus-within:outline-accent-500 @container/card absolute z-0 rounded-2xl outline-offset-2 transition-all duration-200 focus-within:outline-2',
+		'card group focus-within:outline-accent-500 @container/card absolute z-0 rounded-3xl outline-offset-2 transition-all duration-200 focus-within:outline-2 isolate',
 		color ? (colors[color] ?? colors.accent) : colors.base,
 		color !== 'accent' && item.color !== 'base' && item.color !== 'transparent' ? color : '',
 		showOutline ? 'outline-2' : ''
@@ -60,7 +60,7 @@
 	--columns: ${COLUMNS}`}
 	{...rest}
 >
-	<div class="relative h-full w-full overflow-hidden rounded-[15px] isolate">
+	<div class="relative h-full w-full overflow-hidden rounded-[23px] isolate">
 		{@render children?.()}
 	</div>
 	{@render controls?.()}

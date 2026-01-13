@@ -299,8 +299,8 @@
 				}
 
 				// Auto-scroll when dragging near top or bottom of viewport
-				const scrollZone = 150;
-				const scrollSpeed = 15;
+				const scrollZone = 100;
+				const scrollSpeed = 10;
 				const viewportHeight = window.innerHeight;
 
 				if (e.clientY < scrollZone) {
@@ -373,25 +373,6 @@
 				</BaseEditingCard>
 				<!-- {/if} -->
 			{/each}
-
-			{#if activeDragElement.element && activeDragElement.x >= 0 && activeDragElement.item}
-				{@const finalPos = simulateFinalPosition(
-					items,
-					activeDragElement.item,
-					activeDragElement.x,
-					activeDragElement.y,
-					isMobile
-				)}
-				<div
-					class={[
-						'bg-base-500/10 absolute aspect-square rounded-2xl transition-transform duration-100'
-					]}
-					style={`translate: calc(${(finalPos.x / COLUMNS) * 100}cqw + ${margin}px) calc(${(finalPos.y / COLUMNS) * 100}cqw + ${margin}px);
-
-                width: calc(${(getW(activeDragElement.item) / COLUMNS) * 100}cqw - ${margin * 2}px);
-                height: calc(${(getH(activeDragElement.item) / COLUMNS) * 100}cqw - ${margin * 2}px);`}
-				></div>
-			{/if}
 
 			<div style="height: {((maxHeight + 2) / 8) * 100}cqw;"></div>
 		</div>

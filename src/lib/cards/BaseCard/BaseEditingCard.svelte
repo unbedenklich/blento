@@ -62,7 +62,7 @@
 	const minH = $derived(cardDef.minH ?? (isMobile() ? 2 : 2));
 
 	const maxW = $derived(cardDef.maxW ?? COLUMNS);
-	const maxH = $derived(cardDef.maxH ?? 6);
+	const maxH = $derived(cardDef.maxH ?? (isMobile() ? 12 : 6));
 
 	// Resize handle state
 	let isResizing = $state(false);
@@ -99,9 +99,6 @@
 		const deltaX = e.clientX - resizeStartX;
 		const deltaY = e.clientY - resizeStartY;
 
-		const refRect = ref.getBoundingClientRect();
-
-		console.log(Math.round(deltaX / cellSize));
 		// Convert pixel delta to grid units (2 grid units = 1 visual cell)
 		const gridDeltaW = Math.round(deltaX / cellSize);
 		const gridDeltaH = Math.round(deltaY / cellSize);
@@ -134,6 +131,27 @@
 		isResizing = false;
 		document.removeEventListener('pointermove', handleResizeMove);
 		document.removeEventListener('pointerup', handleResizeEnd);
+	}
+
+
+	function canSetSize(w: number, h: number) {
+		if (!cardDef) return false;
+
+		if(isMobile()) {
+			w *= 2;
+			h *= 2;
+		}
+
+		return w >= minW && w <= maxW && h >= minH && h <= maxH;
+	}
+
+	function setSize(w: number, h: number) {
+
+		if(isMobile()) {
+			w *= 2;
+			h *= 2;
+		}
+		onsetsize?.(w, h);
 	}
 </script>
 
@@ -170,12 +188,12 @@
 
 			<div
 				class={[
-					'absolute -bottom-7 z-50 w-full items-center justify-center text-xs group-focus-within:inline-flex group-hover:inline-flex',
+					'absolute -bottom-7 w-full items-center justify-center text-xs group-focus-within:inline-flex group-hover:inline-flex',
 					colorPopoverOpen ? 'inline-flex' : 'hidden'
 				]}
 			>
 				<div
-					class="bg-base-100 border-base-200 dark:bg-base-800 dark:border-base-700 inline-flex items-center gap-0.5 rounded-2xl border p-1 px-2 shadow-lg"
+					class="bg-base-100 z-[100] border-base-200 dark:bg-base-800 dark:border-base-700 inline-flex items-center gap-0.5 rounded-2xl border p-1 px-2 shadow-lg"
 				>
 					<Popover bind:open={colorPopoverOpen}>
 						{#snippet child({ props })}
@@ -216,6 +234,56 @@
 						/>
 					</Popover>
 
+
+					{#if canSetSize(2, 2)}
+						<button
+							onclick={() => {
+								setSize(2, 2);
+							}}
+							class="hover:bg-accent-500/10 cursor-pointer rounded-xl p-2"
+						>
+							<div class="border-base-900 dark:border-base-50 size-3 rounded-sm border-2"></div>
+
+							<span class="sr-only">set size to 1x1</span>
+						</button>
+					{/if}
+
+					{#if canSetSize(4, 2)}
+						<button
+							onclick={() => {
+								setSize(4, 2);
+							}}
+							class="hover:bg-accent-500/10 cursor-pointer rounded-xl p-2"
+						>
+							<div class="border-base-900 dark:border-base-50 h-3 w-5 rounded-sm border-2"></div>
+							<span class="sr-only">set size to 2x1</span>
+						</button>
+					{/if}
+					{#if canSetSize(2, 4)}
+						<button
+							onclick={() => {
+								setSize(2, 4);
+							}}
+							class="hover:bg-accent-500/10 cursor-pointer rounded-xl p-2"
+						>
+							<div class="border-base-900 dark:border-base-50 h-5 w-3 rounded-sm border-2"></div>
+
+							<span class="sr-only">set size to 1x2</span>
+						</button>
+					{/if}
+					{#if canSetSize(4, 4)}
+						<button
+							onclick={() => {
+								setSize(4, 4);
+							}}
+							class="hover:bg-accent-500/10 cursor-pointer rounded-xl p-2"
+						>
+							<div class="border-base-900 dark:border-base-50 h-5 w-5 rounded-sm border-2"></div>
+
+							<span class="sr-only">set size to 2x2</span>
+						</button>
+					{/if}
+
 					{#if onshowsettings}
 						<button
 							onclick={() => {
@@ -252,14 +320,8 @@
 			{#if cardDef.canResize !== false}
 				<!-- Resize handle at bottom right corner -->
 				<!-- svelte-ignore a11y_no_static_element_interactions -->
-				<div
-					class={[
-						'absolute pointer-events-none inset-0 z-50 items-end justify-end overflow-hidden rounded-2xl group-focus-within:flex group-hover:flex',
-						isResizing ? 'flex' : 'hidden'
-					]}
-					onpointerdown={handleResizeStart}
-				>
-				<div onpointerdown={handleResizeStart} class="pointer-events-auto cursor-se-resize">
+				
+				<div onpointerdown={handleResizeStart} class="absolute hidden group-hover:block right-0.5 bottom-0.5 pointer-events-auto cursor-se-resize bg-base-300/70 p-1 dark:bg-base-900/70 rounded-md rounded-br-3xl">
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
 						viewBox="0 0 24 24"
@@ -268,7 +330,7 @@
 						stroke-width="2"
 						stroke-linecap="round"
 						stroke-linejoin="round"
-						class="text-base-500 size-4"
+						class=" dark:text-base-400 text-base-600 size-4"
 					>
 						<circle cx="12" cy="5" r="1" /><circle cx="19" cy="5" r="1" /><circle
 							cx="5"
@@ -288,7 +350,6 @@
 					</svg>
 					<span class="sr-only">Resize card</span>
 					</div>
-				</div>
 			{/if}
 		{/if}
 	{/snippet}

@@ -22,11 +22,16 @@ export async function GET({ params, platform }) {
 
 	<p class="mt-8 text-4xl text-neutral-300">Check out my blento</p>
 
-	<div class="w-20 h-20 rounded-xl bg-rose-700 text-transparent absolute top-70 right-20">h</div>
-	<div class="w-20 h-40 rounded-xl bg-rose-400 text-transparent absolute top-94 right-20">h</div>
-	<div class="w-40 h-40 rounded-xl bg-rose-300 text-transparent absolute top-70 right-44">h</div>
-	<div class="w-20 h-40 rounded-xl bg-rose-600 text-transparent absolute top-70 right-88">h</div>
-	<div class="w-40 h-20 rounded-xl bg-rose-500 text-transparent absolute top-114 right-68">h</div>
+    <svg class="absolute w-130 h-130 top-50 right-0" viewBox="0 0 900 900" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="100" y="100" width="160" height="340" rx="23" fill="#EF4444"/>
+        <rect x="640" y="280" width="160" height="340" rx="23" fill="#22C55E"/>
+        <rect x="280" y="100" width="340" height="340" rx="23" fill="#F59E0B"/>
+        <rect x="100" y="460" width="340" height="160" rx="23" fill="#0EA5E9"/>
+        <rect x="640" y="100" width="160" height="160" rx="23" fill="#EAB308"/>
+        <rect x="100" y="640" width="160" height="160" rx="23" fill="#6366F1"/>
+        <rect x="460" y="460" width="160" height="160" rx="23" fill="#14B8A6"/>
+        <rect x="280" y="640" width="520" height="160" rx="23" fill="#A855F7"/>
+    </svg>
 </div>
 `;
 

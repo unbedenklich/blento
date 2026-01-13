@@ -85,13 +85,16 @@
 			onUpdate: () => {
 				update();
 			},
-
+			onDrop: () => {
+				return false;
+			},
 			content: json,
 
 			editorProps: {
 				attributes: {
 					class: 'outline-none'
-				}
+				},
+				handleDOMEvents: { drop: () => true }
 			}
 		});
 
