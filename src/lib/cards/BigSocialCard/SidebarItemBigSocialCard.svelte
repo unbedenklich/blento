@@ -17,5 +17,5 @@
 			clip-rule="evenodd"
 		/>
 	</svg>
-	Big Social</Button
+	Big Social Icon</Button
 >
