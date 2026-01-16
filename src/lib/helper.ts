@@ -260,10 +260,10 @@ export function setPositionOfNewItem(newItem: Item, items: Item[]) {
 }
 
 export async function refreshData(data: { updatedAt?: number; handle: string }) {
-	const FIVE_MINUTES = 5 * 60 * 1000;
+	const TEN_MINUTES = 10 * 60 * 1000;
 	const now = Date.now();
 
-	if (now - (data.updatedAt || 0) > FIVE_MINUTES && data.handle !== 'blento.app') {
+	if (now - (data.updatedAt || 0) > TEN_MINUTES) {
 		try {
 			await fetch('/' + data.handle + '/api/refreshData');
 			console.log('successfully refreshed data', data.handle);
