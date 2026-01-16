@@ -10,7 +10,6 @@
 		Sidebar,
 		Popover,
 		Input,
-		Label
 	} from '@foxui/core';
 	import { BlueskyLogin } from '@foxui/social';
 

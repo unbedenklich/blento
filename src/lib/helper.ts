@@ -38,7 +38,12 @@ export const overlaps = (a: Item, b: Item, mobile: boolean = false) => {
 	return a.x < b.x + b.w && a.x + a.w > b.x && a.y < b.y + b.h && a.y + a.h > b.y;
 };
 
-export function fixCollisions(items: Item[], movedItem: Item, mobile: boolean = false, skipCompact: boolean = false) {
+export function fixCollisions(
+	items: Item[],
+	movedItem: Item,
+	mobile: boolean = false,
+	skipCompact: boolean = false
+) {
 	const clampX = (item: Item) => {
 		if (mobile) item.mobileX = clamp(item.mobileX, 0, COLUMNS - item.mobileW);
 		else item.x = clamp(item.x, 0, COLUMNS - item.w);
@@ -325,4 +330,73 @@ export function validateLink(
 			return;
 		}
 	}
+}
+
+export function compressImage(file: File, maxSize: number = 900 * 1024): Promise<Blob> {
+	return new Promise((resolve, reject) => {
+		const img = new Image();
+		const reader = new FileReader();
+
+		reader.onload = (e) => {
+			if (!e.target?.result) {
+				return reject(new Error('Failed to read file.'));
+			}
+			img.src = e.target.result as string;
+		};
+
+		reader.onerror = (err) => reject(err);
+		reader.readAsDataURL(file);
+
+		img.onload = () => {
+			let width = img.width;
+			let height = img.height;
+			const maxDimension = 2048;
+
+			if (width > maxDimension || height > maxDimension) {
+				if (width > height) {
+					height = Math.round((maxDimension / width) * height);
+					width = maxDimension;
+				} else {
+					width = Math.round((maxDimension / height) * width);
+					height = maxDimension;
+				}
+			}
+
+			// Create a canvas to draw the image
+			const canvas = document.createElement('canvas');
+			canvas.width = width;
+			canvas.height = height;
+			const ctx = canvas.getContext('2d');
+			if (!ctx) return reject(new Error('Failed to get canvas context.'));
+			ctx.drawImage(img, 0, 0, width, height);
+
+			// Function to try compressing at a given quality
+			let quality = 0.8;
+			function attemptCompression() {
+				canvas.toBlob(
+					(blob) => {
+						if (!blob) {
+							return reject(new Error('Compression failed.'));
+						}
+						// If the blob is under our size limit, or quality is too low, resolve it
+						if (blob.size <= maxSize || quality < 0.3) {
+							console.log('Compression successful. Blob size:', blob.size);
+							console.log('Quality:', quality);
+							resolve(blob);
+						} else {
+							// Otherwise, reduce the quality and try again
+							quality -= 0.1;
+							attemptCompression();
+						}
+					},
+					'image/jpeg',
+					quality
+				);
+			}
+
+			attemptCompression();
+		};
+
+		img.onerror = (err) => reject(err);
+	});
 }
