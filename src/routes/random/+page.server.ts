@@ -14,10 +14,12 @@ export async function load({ platform }) {
 	let foundData: WebsiteData | undefined = undefined;
 	let i = 0;
 
-	while (!foundData && i < 10) {
+	while (!foundData && i < 20) {
 		const rando = Math.floor(Math.random() * list.keys.length);
 
 		foundData = await getCache(list.keys[rando].name, 'self', cache as unknown as UserCache);
+
+		if (!foundData?.cards.length) foundData = undefined;
 		i++;
 	}
 
