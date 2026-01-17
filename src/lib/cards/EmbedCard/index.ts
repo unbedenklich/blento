@@ -13,5 +13,12 @@ export const EmbedCardDefinition = {
 		card.h = 4;
 		card.mobileH = 8;
 		card.mobileW = 8;
-	}
+	},
+
+	canChange: (item) => Boolean(item.cardData.href),
+
+	change: (item) => {
+		return item;
+	},
+	name: 'Embed Card'
 } as CardDefinition & { type: 'embed' };

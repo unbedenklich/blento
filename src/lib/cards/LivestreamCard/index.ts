@@ -1,7 +1,6 @@
 import { client } from '$lib/oauth';
 import { listRecords } from '$lib/oauth/atproto';
 import { getImageBlobUrl } from '$lib/oauth/utils';
-import EmbedCard from '../EmbedCard/EmbedCard.svelte';
 import type { CardDefinition } from '../types';
 import LivestreamCard from './LivestreamCard.svelte';
 import LivestreamEmbedCard from './LivestreamEmbedCard.svelte';

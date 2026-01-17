@@ -1,13 +1,12 @@
 import type { CardDefinition } from '../types';
 import BigSocialCard from './BigSocialCard.svelte';
 import CreateBigSocialCardModal from './CreateBigSocialCardModal.svelte';
-import SidebarItemBigSocialCard from './SidebarItemBigSocialCard.svelte';
 
 export const BigSocialCardDefinition = {
 	type: 'bigsocial',
 	contentComponent: BigSocialCard,
 	creationModalComponent: CreateBigSocialCardModal,
-	sidebarComponent: SidebarItemBigSocialCard,
+
 	createNew: (card) => {
 		card.cardType = 'bigsocial';
 		card.cardData = {
@@ -19,6 +18,7 @@ export const BigSocialCardDefinition = {
 		card.mobileW = 4;
 		card.mobileH = 4;
 	},
+
 	canChange: (item) => {
 		const href = item.cardData?.href;
 		if (!href) return false;
