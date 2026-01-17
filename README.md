@@ -6,6 +6,10 @@ Your personal website in a bento style layout, using your bluesky personal data 
 
 made with svelte, tailwind and hosted on cloudflare workers.
 
+
+https://github.com/user-attachments/assets/2b6f5e99-b5d4-4484-ab95-35445067bb80
+
+
 ## Why?
 
 This started as a replacement/alternative for bento.me which is shutting down in a few weeks (Feb 2026) after being bought by a competitor ^^ I wanted to build a version that couldn't just shut down or where it would be very easy to spin up a new version (with all the data) should the old one disappear.
