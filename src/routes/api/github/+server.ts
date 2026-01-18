@@ -69,7 +69,10 @@ export const GET: RequestHandler = async ({ url, platform }) => {
 		});
 
 		if (!response.ok) {
-			return json({ error: 'Failed to fetch GitHub data' }, { status: response.status });
+			return json(
+				{ error: 'Failed to fetch GitHub data ' + response.statusText },
+				{ status: response.status }
+			);
 		}
 
 		const data = await response.json();
