@@ -38,7 +38,6 @@
 </script>
 
 <div class="h-full overflow-hidden p-4">
-	{#if contributionsData}
 		<div class="flex h-full flex-col justify-between">
 			<!-- Header -->
 			<div class="flex justify-between">
@@ -66,26 +65,15 @@
 				{/if}
 			</div>
 
+			{#if contributionsData}
 			<div class="flex">
 				<GithubContributionsGraph
 					data={contributionsData}
 					isBig={isMobile() ? item.mobileH > 5 : item.h > 2}
 				/>
 			</div>
+			{/if}
 		</div>
-	{:else if isLoaded}
-		<div
-			class="text-base-600 dark:text-base-400 accent:text-base-800 flex h-full w-full items-center justify-center text-sm"
-		>
-			Could not load GitHub contributions
-		</div>
-	{:else}
-		<div
-			class="text-base-600 dark:text-base-400 accent:text-base-800 flex h-full w-full items-center justify-center text-sm"
-		>
-			Loading contributions...
-		</div>
-	{/if}
 </div>
 
 {#if item.cardData.href}
