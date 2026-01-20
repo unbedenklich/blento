@@ -7,7 +7,8 @@
       "mcp__plugin_svelte_svelte__list-sections",
       "Bash(pkill:*)",
       "Bash(timeout 8 pnpm dev:*)",
-      "Bash(git checkout:*)"
+      "Bash(git checkout:*)",
+      "Bash(npx svelte-kit:*)"
     ]
   }
 }

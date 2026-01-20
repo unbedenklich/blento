@@ -1233,16 +1233,16 @@
 				color.g *= 10.0;
 				color.b *= 10.0;
 				const x = Math.random();
-				const y = Math.random() < 0.5 ? 0.8 : 0.2;
-				const dx = 100 * (Math.random() - 0.5);
-				const dy = 1000 * (Math.random() - 0.5);
+				const y = Math.random() < 0.5 ? 0.95 : 0.05;
+				const dx = 300 * (Math.random() - 0.5);
+				const dy = 3000 * (Math.random() - 0.5);
 				splat(x, y, dx, dy, color);
 			}
 		}
 
 		function splatPointer(pointer: Pointer) {
-			const dx = pointer.deltaX * config.SPLAT_FORCE * 5;
-			const dy = pointer.deltaY * config.SPLAT_FORCE * 5;
+			const dx = pointer.deltaX * config.SPLAT_FORCE * 12;
+			const dy = pointer.deltaY * config.SPLAT_FORCE * 12;
 			splat(pointer.texcoordX, pointer.texcoordY, dx, dy, {
 				r: pointer.color[0],
 				g: pointer.color[1],
@@ -1541,8 +1541,8 @@
 				splat(
 					pointer.texcoordX,
 					pointer.texcoordY,
-					pointer.deltaX * config.SPLAT_FORCE * 5,
-					pointer.deltaY * config.SPLAT_FORCE * 5,
+					pointer.deltaX * config.SPLAT_FORCE * 12,
+					pointer.deltaY * config.SPLAT_FORCE * 12,
 					{
 						r: pointer.color[0],
 						g: pointer.color[1],
