@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { ContentComponentProps } from '../types';
 	import { onMount, onDestroy, tick } from 'svelte';
-	import ditheringTextureUrl from './text_effect_fluid-main/LDR_LLL1_0.png';
+	import ditheringTextureUrl from './LDR_LLL1_0.png';
 
 	let { item }: ContentComponentProps = $props();
 
