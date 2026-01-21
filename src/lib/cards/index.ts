@@ -19,6 +19,7 @@ import { YoutubeCardDefinition } from './YoutubeVideoCard';
 import { BlueskyProfileCardDefinition } from './BlueskyProfileCard';
 import { GithubProfileCardDefitition } from './GitHubProfileCard';
 import { FluidTextCardDefinition } from './FluidTextCard';
+import { GifCardDefinition } from './GIFCard';
 import { PopfeedReviewsCardDefinition } from './PopfeedReviews';
 import { TealFMPlaysCardDefinition } from './TealFMPlaysCard';
 
@@ -43,6 +44,7 @@ export const AllCardDefinitions = [
 	GithubProfileCardDefitition,
 	TetrisCardDefinition,
 	FluidTextCardDefinition,
+	GifCardDefinition,
 	PopfeedReviewsCardDefinition,
 	TealFMPlaysCardDefinition
 ] as const;
