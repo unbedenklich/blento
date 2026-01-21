@@ -17,10 +17,12 @@
 <div class="flex h-full w-full items-center justify-center p-4">
 	{#if animated}
 		<img src={animated} alt="" class="h-full max-h-40 w-full object-contain" />
-	{:else}
+	{:else if record?.value?.status}
 		<div class="text-9xl">
-			{record.value.status}
+			{record?.value?.status}
 		</div>
+	{:else}
+		No status yet
 	{/if}
 
 	{#if item.cardData.title}

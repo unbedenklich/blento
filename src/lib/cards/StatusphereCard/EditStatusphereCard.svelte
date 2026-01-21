@@ -20,14 +20,11 @@
 	let handle = getHandleContext();
 
 	onMount(async () => {
-		console.log(record);
 		if (!record) {
 			record = (await CardDefinitionsByType[item.cardType]?.loadData?.([], {
 				did,
 				handle
 			})) as any;
-
-			console.log(record);
 
 			data[item.cardType] = record;
 		}
@@ -37,36 +34,37 @@
 </script>
 
 <div class="flex h-full w-full items-center justify-center p-4">
-	{#if record?.value?.status}
-		<PopoverEmojiPicker
-			bind:open={showPopover}
-			onpicked={(emoji) => {
-				record.value.status = emoji.unicode;
+	<PopoverEmojiPicker
+		bind:open={showPopover}
+		onpicked={(emoji) => {
+			record.value.status = emoji.unicode;
 
-				item.cardData.hasUpdate = true;
-				item.cardData.emoji = emoji.unicode;
+			item.cardData.hasUpdate = true;
+			item.cardData.emoji = emoji.unicode;
 
-				showPopover = false;
-			}}
-		>
-			{#snippet child({ props })}
-				{@const animated = emojiToNotoAnimatedWebp(record.value.status)}
-				<button {...props} class="z-20 h-full max-h-40 w-full max-w-40">
-					{#if animated}
-						<img
-							src={animated}
-							alt=""
-							class="hover:bg-base-500/10 h-full max-h-40 w-full max-w-40 rounded-2xl object-contain"
-						/>
-					{:else}
-						<div class="text-9xl">
-							{record.value.status}
-						</div>
-					{/if}
-				</button>
-			{/snippet}
-		</PopoverEmojiPicker>
-	{/if}
+			showPopover = false;
+		}}
+	>
+		{#snippet child({ props })}
+			{@const animated = emojiToNotoAnimatedWebp(record?.value?.status)}
+
+			<button {...props} class="z-20 h-full max-h-40 w-full max-w-40">
+				{#if animated}
+					<img
+						src={animated}
+						alt=""
+						class="hover:bg-base-500/10 h-full max-h-40 w-full max-w-40 rounded-2xl object-contain"
+					/>
+				{:else if record?.value?.status}
+					<div class="text-9xl">
+						{record.value.status}
+					</div>
+				{:else}
+					<div>Click here to set a status</div>
+				{/if}
+			</button>
+		{/snippet}
+	</PopoverEmojiPicker>
 
 	<div
 		class={cn(
