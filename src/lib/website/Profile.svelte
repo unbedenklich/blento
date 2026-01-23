@@ -7,6 +7,7 @@
 	import type { WebsiteData } from '$lib/types';
 	import { getDescription, getName } from '$lib/helper';
 	import { page } from '$app/state';
+	import type { ActorIdentifier } from '@atcute/lexicons';
 
 	let {
 		data,
@@ -40,7 +41,7 @@
 			{getName(data)}
 		</div>
 
-		<div class="scrollbar -mx-4 flex-grow overflow-x-hidden overflow-y-scroll px-4">
+		<div class="scrollbar -mx-4 grow overflow-x-hidden overflow-y-scroll px-4">
 			<div
 				class="text-base-600 dark:text-base-400 prose dark:prose-invert prose-a:text-accent-500 prose-a:no-underline"
 			>
@@ -70,8 +71,8 @@
 					Edit Your Website</Button
 				>
 			</div>
-			{:else}
-			<div class="h-[42px] w-1 @5xl/wrapper:hidden"></div>
+		{:else}
+			<div class="h-10.5 w-1 @5xl/wrapper:hidden"></div>
 		{/if}
 
 		{#if !env.PUBLIC_IS_SELFHOSTED && data.handle === 'blento.app' && user.profile?.handle !== data.handle}
@@ -82,7 +83,7 @@
 					</div>
 					<BlueskyLogin
 						login={async (handle) => {
-							await login(handle);
+							await login(handle as ActorIdentifier);
 							return true;
 						}}
 					/>

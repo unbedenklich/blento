@@ -1,16 +1,18 @@
 import { getDetailedProfile } from '$lib/atproto';
-import type { ProfileViewDetailed } from '@atproto/api/dist/client/types/app/bsky/actor/defs';
 import { json } from '@sveltejs/kit';
+import type { AppBskyActorDefs } from '@atcute/bluesky';
 
 export async function GET({ platform }) {
 	if (!platform?.env?.USER_DATA_CACHE) return json('no cache');
 	const existingUsers = await platform?.env?.USER_DATA_CACHE?.get('updatedBlentos');
 
-	const existingUsersArray: ProfileViewDetailed[] = existingUsers ? JSON.parse(existingUsers) : [];
+	const existingUsersArray: AppBskyActorDefs.ProfileViewDetailed[] = existingUsers
+		? JSON.parse(existingUsers)
+		: [];
 
 	const existingUsersSet = new Set(existingUsersArray.map((v) => v.did));
 
-	const newProfilesPromises: Promise<ProfileViewDetailed>[] = [];
+	const newProfilesPromises: Promise<AppBskyActorDefs.ProfileViewDetailed | undefined>[] = [];
 	for (const did of Array.from(existingUsersSet)) {
 		const profile = getDetailedProfile({ did });
 		newProfilesPromises.push(profile);

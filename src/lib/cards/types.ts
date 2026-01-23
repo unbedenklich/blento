@@ -1,5 +1,6 @@
 import type { Component } from 'svelte';
 import type { Item, UserCache } from '$lib/types';
+import type { Did } from '@atcute/lexicons';
 
 export type CreationModalComponentProps = {
 	item: Item;
@@ -42,7 +43,7 @@ export type CardDefinition = {
 	loadData?: (
 		// all cards of that type
 		items: Item[],
-		{ did, handle, cache }: { did: string; handle: string; cache?: UserCache }
+		{ did, handle, cache }: { did: Did; handle: string; cache?: UserCache }
 	) => Promise<unknown>;
 
 	// show color selection popup

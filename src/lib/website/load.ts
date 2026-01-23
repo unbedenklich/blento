@@ -4,6 +4,7 @@ import { CardDefinitionsByType } from '$lib/cards';
 import type { Item, UserCache, WebsiteData } from '$lib/types';
 import { compactItems, fixAllCollisions } from '$lib/helper';
 import { error } from '@sveltejs/kit';
+import type { Handle } from '@atcute/lexicons';
 
 const CURRENT_CACHE_VERSION = 1;
 
@@ -44,7 +45,7 @@ export async function getCache(handle: string, page: string, cache?: UserCache) 
 }
 
 export async function loadData(
-	handle: string,
+	handle: Handle,
 	cache: UserCache | undefined,
 	forceUpdate: boolean = false,
 	page: string = 'self'

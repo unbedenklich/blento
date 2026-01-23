@@ -7,12 +7,10 @@ export async function GET({ url }) {
 		return json({ error: 'No link provided' }, { status: 400 });
 	}
 
-	// check if link is valid url
 	try {
 		new URL(link);
-		// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	} catch (_) {
-		return json({ error: 'Link is not a valid url' }, { status: 500 });
+	} catch {
+		return json({ error: 'Link is not a valid url' }, { status: 400 });
 	}
 
 	try {

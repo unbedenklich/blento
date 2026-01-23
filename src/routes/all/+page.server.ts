@@ -1,6 +1,7 @@
 import { env } from '$env/dynamic/public';
 import type { UserCache, WebsiteData } from '$lib/types.js';
 import { loadData } from '$lib/website/load';
+import type { Handle } from '@atcute/lexicons';
 import type { ProfileViewDetailed } from '@atproto/api/dist/client/types/app/bsky/actor/defs.js';
 
 export async function load({ platform }) {
@@ -24,7 +25,7 @@ export async function load({ platform }) {
 
 	const handle = env.PUBLIC_HANDLE;
 
-	const data = await loadData(handle, cache as unknown as UserCache);
+	const data = await loadData(handle as Handle, cache as unknown as UserCache);
 
 	data.publication ??= {};
 	data.publication.preferences ??= {};

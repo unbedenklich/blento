@@ -4,6 +4,7 @@
 	import { setAdditionalUserData, setCanEdit, setDidContext, setHandleContext } from './context';
 	import { dev } from '$app/environment';
 	import { user } from '$lib/atproto';
+	import type { Did, Handle } from '@atcute/lexicons';
 
 	let {
 		data,
@@ -19,9 +20,9 @@
 	setCanEdit(() => dev || (user.isLoggedIn && user.profile?.did === data.did));
 
 	// svelte-ignore state_referenced_locally
-	setDidContext(data.did);
+	setDidContext(data.did as Did);
 	// svelte-ignore state_referenced_locally
-	setHandleContext(data.handle);
+	setHandleContext(data.handle as Handle);
 </script>
 
 {@render children()}

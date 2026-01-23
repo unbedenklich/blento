@@ -1,8 +1,8 @@
 import { getDetailedProfile } from '$lib/atproto';
-import type { ProfileViewDetailed } from '@atproto/api/dist/client/types/app/bsky/actor/defs';
 import type { CardDefinition } from '../../types';
 import UpdatedBlentosCard from './UpdatedBlentosCard.svelte';
-import { AppBskyActorDefs } from '@atcute/bluesky';
+import type { Did } from '@atcute/lexicons';
+import type { AppBskyActorDefs } from '@atcute/bluesky';
 
 export const UpdatedBlentosCardDefitition = {
 	type: 'updatedBlentos',
@@ -14,18 +14,18 @@ export const UpdatedBlentosCardDefitition = {
 			);
 			const recentRecords = await response.json();
 			const existingUsers = await cache?.get('updatedBlentos');
-			const existingUsersArray: ProfileViewDetailed[] = existingUsers
+			const existingUsersArray: AppBskyActorDefs.ProfileViewDetailed[] = existingUsers
 				? JSON.parse(existingUsers)
 				: [];
 
 			const existingUsersSet = new Set(existingUsersArray.map((v) => v.did));
 
-			const uniqueDids = new Set<string>();
+			const uniqueDids = new Set<Did>();
 			for (const record of recentRecords as { did: string }[]) {
-				if (!existingUsersSet.has(record.did)) uniqueDids.add(record.did);
+				if (!existingUsersSet.has(record.did as Did)) uniqueDids.add(record.did as Did);
 			}
 
-			const profiles: Promise<AppBskyActorDefs.ProfileViewDetailed>[] = [];
+			const profiles: Promise<AppBskyActorDefs.ProfileViewDetailed | undefined>[] = [];
 
 			for (const did of Array.from(uniqueDids)) {
 				const profile = getDetailedProfile({ did });

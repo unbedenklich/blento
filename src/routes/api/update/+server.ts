@@ -1,13 +1,15 @@
 import type { UserCache } from '$lib/types';
 import { getCache, loadData } from '$lib/website/load';
-import type { ProfileViewDetailed } from '@atproto/api/dist/client/types/app/bsky/actor/defs';
+import type { AppBskyActorDefs } from '@atcute/bluesky';
 import { json } from '@sveltejs/kit';
 
 export async function GET({ platform }) {
 	if (!platform?.env?.USER_DATA_CACHE) return json('no cache');
 	const existingUsers = await platform?.env?.USER_DATA_CACHE?.get('updatedBlentos');
 
-	const existingUsersArray: ProfileViewDetailed[] = existingUsers ? JSON.parse(existingUsers) : [];
+	const existingUsersArray: AppBskyActorDefs.ProfileViewDetailed[] = existingUsers
+		? JSON.parse(existingUsers)
+		: [];
 
 	const existingUsersHandle = existingUsersArray.map((v) => v.handle);
 

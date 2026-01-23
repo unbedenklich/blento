@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { user, login, logout } from '$lib/atproto';
 	import type { WebsiteData } from '$lib/types';
+	import type { ActorIdentifier } from '@atcute/lexicons';
 	import { Button, Popover } from '@foxui/core';
 
 	let {
@@ -32,7 +33,7 @@
 
 		<Button
 			onclick={async () => {
-				await login(data.handle);
+				await login(data.handle as ActorIdentifier);
 			}}>Login</Button
 		>
 	</div>

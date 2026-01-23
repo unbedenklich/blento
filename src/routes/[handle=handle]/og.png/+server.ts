@@ -1,5 +1,6 @@
 import type { UserCache } from '$lib/types';
 import { loadData } from '$lib/website/load';
+import type { Handle } from '@atcute/lexicons';
 import { ImageResponse } from '@ethercorps/sveltekit-og';
 
 export async function GET({ params, platform }) {
@@ -7,7 +8,7 @@ export async function GET({ params, platform }) {
 
 	const cache = platform?.env?.USER_DATA_CACHE as unknown;
 
-	const data = await loadData(params.handle, cache as UserCache);
+	const data = await loadData(params.handle as Handle, cache as UserCache);
 
 	const image = data.profile.avatar;
 

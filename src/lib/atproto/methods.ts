@@ -18,7 +18,7 @@ export function parseUri(uri: string) {
 	return { did, collection, rkey } as {
 		collection: `${string}.${string}.${string}`;
 		rkey: string;
-		did: string;
+		did: Did;
 	};
 }
 

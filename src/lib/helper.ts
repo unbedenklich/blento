@@ -446,9 +446,7 @@ export async function savePage(
 		const item = currentItems.find((i) => i.id === originalItem.id);
 		if (!item) {
 			console.log('deleting item', originalItem);
-			promises.push(
-				deleteRecord({ collection: 'app.blento.card', rkey: originalItem.id, did: data.did })
-			);
+			promises.push(deleteRecord({ collection: 'app.blento.card', rkey: originalItem.id }));
 		}
 	}
 

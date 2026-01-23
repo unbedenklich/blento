@@ -1,6 +1,7 @@
 import { loadData } from '$lib/website/load';
 import { env } from '$env/dynamic/public';
 import type { UserCache } from '$lib/types';
+import type { Handle } from '@atcute/lexicons';
 
 export async function load({ url, platform }) {
 	const hostname = url.hostname;
@@ -12,5 +13,5 @@ export async function load({ url, platform }) {
 
 	const cache = platform?.env?.USER_DATA_CACHE as unknown;
 
-	return await loadData(handle, cache as UserCache);
+	return await loadData(handle as Handle, cache as UserCache);
 }

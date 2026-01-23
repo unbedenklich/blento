@@ -8,6 +8,7 @@
 	import type { WebsiteData } from '$lib/types';
 	import Context from './Context.svelte';
 	import Head from './Head.svelte';
+	import type { Did, Handle } from '@atcute/lexicons';
 
 	let { data }: { data: WebsiteData } = $props();
 
@@ -15,9 +16,9 @@
 	setIsMobile(() => isMobile);
 
 	// svelte-ignore state_referenced_locally
-	setDidContext(data.did);
+	setDidContext(data.did as Did);
 	// svelte-ignore state_referenced_locally
-	setHandleContext(data.handle);
+	setHandleContext(data.handle as Handle);
 
 	let maxHeight = $derived(
 		data.cards.reduce(
