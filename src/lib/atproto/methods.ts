@@ -229,13 +229,15 @@ export async function uploadBlob({ blob }: { blob: Blob }) {
 	if (!user.did || !user.client) throw new Error("Can't upload blob: Not logged in");
 
 	const blobResponse = await user.client.post('com.atproto.repo.uploadBlob', {
-		params: {
+		input: blob,
+		data: {
 			repo: user.did
-		},
-		input: blob
+		}
 	});
 
-	if (!blobResponse?.ok) return;
+	if (!blobResponse?.ok) {
+		return;
+	}
 
 	const blobInfo = blobResponse?.data.blob as {
 		$type: 'blob';
@@ -294,6 +296,7 @@ export function getImageBlobUrl({
 		};
 	};
 }) {
+	if (!did || !blob?.ref?.$link) return '';
 	return `https://cdn.bsky.app/img/feed_thumbnail/plain/${did}/${blob.ref.$link}@jpeg`;
 }
 

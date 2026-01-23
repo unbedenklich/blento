@@ -6,8 +6,6 @@
   - move subpages to own lexicon (app.blento.page)
   - move description to markdownDescription and set description as text only
 
-- fix recent blentos only showing the last ~5 blentos
-
 - card with big call to action button
 
 - link card: save favicon and og image as blobs
@@ -19,8 +17,6 @@
 - allow editing profile stuff inline (in sidebar profile)
 
 - allow setting base and accent color
-
-- go straight to edit mode (and redirect to edit mode on succesfull login)
 
 - ask to fill with some default cards on page creation
 

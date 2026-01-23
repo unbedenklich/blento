@@ -39,7 +39,7 @@ export const VideoCardDefinition = {
 		if (item.cardData.blob) {
 			const blob = item.cardData.blob;
 			const aspectRatio = await getAspectRatio(blob);
-			const uploadedBlob = await uploadBlob(blob);
+			const uploadedBlob = await uploadBlob({ blob });
 
 			item.cardData.video = {
 				$type: 'app.bsky.embed.video',

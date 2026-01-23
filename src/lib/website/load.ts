@@ -88,14 +88,14 @@ export async function loadData(
 
 		if (!cardDef?.loadData) continue;
 
-		additionDataPromises[cardType] = cardDef
-			.loadData(
+		try {
+			additionDataPromises[cardType] = cardDef.loadData(
 				cards.filter((v) => cardType === v.value.cardType).map((v) => v.value) as Item[],
 				loadOptions
-			)
-			.catch((error: Error) => {
-				console.error('error getting additional data for', cardType, error);
-			});
+			);
+		} catch {
+			console.error('error getting additional data for', cardType);
+		}
 	}
 
 	await Promise.all(Object.values(additionDataPromises));

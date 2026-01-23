@@ -16,7 +16,7 @@ export const ImageCardDefinition = {
 	},
 	upload: async (item) => {
 		if (item.cardData.blob) {
-			item.cardData.image = await uploadBlob(item.cardData.blob);
+			item.cardData.image = await uploadBlob({ blob: item.cardData.blob });
 
 			delete item.cardData.blob;
 		}
