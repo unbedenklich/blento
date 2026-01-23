@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { colorToHue, getCSSVar } from '../helper';
+	import { colorToHue, getCSSVar, getHexOfCardColor } from '../helper';
 	import type { ContentComponentProps } from '../types';
 	import { onMount, onDestroy, tick } from 'svelte';
 	let { item }: ContentComponentProps = $props();
@@ -199,12 +199,7 @@
 		// Wait for layout to settle
 		await tick();
 
-		let color =
-			!item.color || item.color === 'transparent' || item.color === 'base'
-				? 'accent'
-				: item.color;
-
-		const computedColor = getCSSVar(`--color-${color}-500`);
+		const computedColor = getHexOfCardColor(item);
 		const hue = colorToHue(computedColor) / 360;
 		console.log(computedColor, hue);
 

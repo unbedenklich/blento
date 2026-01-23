@@ -1,3 +1,4 @@
+import type { Item } from '$lib/types';
 import { convertCSSToHex, hex_to_okhsv } from '@foxui/colors';
 
 export function getCSSVar(variable: string) {
@@ -11,4 +12,11 @@ export function colorToHue(color: string): number {
 	const hex = convertCSSToHex(color);
 	const okhsv = hex_to_okhsv(hex);
 	return okhsv.h;
+}
+
+export function getHexOfCardColor(item: Item) {
+	let color =
+		!item.color || item.color === 'transparent' || item.color === 'base' ? 'accent' : item.color;
+
+	return convertCSSToHex(getCSSVar(`--color-${color}-500`));
 }
