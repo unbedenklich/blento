@@ -40,10 +40,8 @@ export default [
 	},
 	{
 		rules: {
-			//
 			'svelte/no-navigation-without-resolve': 'off',
 			'svelte/no-at-html-tags': 'off',
-			//
 			'@typescript-eslint/no-explicit-any': 'off',
 			'no-unused-vars': 'off',
 			'@typescript-eslint/no-unused-vars': [
