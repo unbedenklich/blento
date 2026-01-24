@@ -2,9 +2,7 @@
 	import type { Item } from '$lib/types';
 	import Map from './Map.svelte';
 
-	let { item }: { item: Item } = $props();
+	let { item = $bindable() }: { item: Item } = $props();
 </script>
 
-{#key item.color}
-	<Map {item} />
-{/key}
+<Map bind:item />

@@ -15,5 +15,20 @@ export const MapCardDefinition = {
 	},
 
 	sidebarComponent: SidebarItemMapCard,
-	creationModalComponent: CreateMapCardModal
+	creationModalComponent: CreateMapCardModal,
+	allowSetColor: false
 } as CardDefinition & { type: 'mapLocation' };
+
+export function getZoomLevel(type: string | undefined): number {
+	if (
+		['house', 'building', 'address', 'street', 'road', 'residential', 'highway'].includes(
+			type || ''
+		)
+	) {
+		return 13;
+	}
+	if (['neighbourhood', 'suburb', 'quarter', 'district', 'postcode'].includes(type || '')) {
+		return 12;
+	}
+	return 1;
+}
