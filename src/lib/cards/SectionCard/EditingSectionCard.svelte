@@ -2,7 +2,7 @@
 	import type { Item } from '$lib/types';
 	import { textAlignClasses, textSizeClasses, verticalAlignClasses } from '.';
 	import type { ContentComponentProps } from '../types';
-	import PlainTextEditor from '../utils/PlainTextEditor.svelte';
+	import PlainTextEditor from '$lib/components/PlainTextEditor.svelte';
 
 	let { item = $bindable<Item>() }: ContentComponentProps = $props();
 </script>
@@ -15,5 +15,5 @@
 		textSizeClasses[(item.cardData.textSize ?? 1) as number]
 	]}
 >
-	<PlainTextEditor bind:item key="text" class="line-clamp-1 w-full" />
+	<PlainTextEditor bind:contentDict={item.cardData} key="text" class="line-clamp-1 w-full" />
 </div>

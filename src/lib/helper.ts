@@ -576,8 +576,12 @@ export async function checkAndUploadImage(
 	}
 }
 
-export function getImage(objectWithImage: Record<string, any>, did: string, key: string = 'image') {
-	if (!objectWithImage[key]) return;
+export function getImage(
+	objectWithImage: Record<string, any> | undefined,
+	did: string,
+	key: string = 'image'
+) {
+	if (!objectWithImage?.[key]) return;
 
 	if (objectWithImage[key].objectUrl) return objectWithImage[key].objectUrl;
 

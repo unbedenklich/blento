@@ -1,0 +1,158 @@
+<script lang="ts">
+	import type { WebsiteData } from '$lib/types';
+	import { getDescription, getName, getImage, compressImage } from '$lib/helper';
+	import PlainTextEditor from '$lib/components/PlainTextEditor.svelte';
+	import MarkdownTextEditor from '$lib/components/MarkdownTextEditor.svelte';
+	import type { Editor } from '@tiptap/core';
+
+	let { data = $bindable() }: { data: WebsiteData } = $props();
+
+	let fileInput: HTMLInputElement;
+	let isHoveringAvatar = $state(false);
+	let descriptionEditor: Editor | null = $state(null);
+
+	// Initialize publication if needed
+	$effect(() => {
+		if (!data.publication) {
+			data.publication = {
+				name: getName(data),
+				description: getDescription(data)
+			};
+		} else {
+			if (data.publication.name === undefined) {
+				data.publication.name = getName(data);
+			}
+			if (data.publication.description === undefined) {
+				data.publication.description = getDescription(data);
+			}
+		}
+	});
+
+	async function handleAvatarChange(event: Event) {
+		const target = event.target as HTMLInputElement;
+		const file = target.files?.[0];
+		if (!file) return;
+
+		try {
+			const compressedBlob = await compressImage(file);
+			const objectUrl = URL.createObjectURL(compressedBlob);
+
+			data.publication ??= {};
+			data.publication.icon = {
+				blob: compressedBlob,
+				objectUrl
+			} as any;
+
+			data = { ...data };
+		} catch (error) {
+			console.error('Failed to process image:', error);
+		}
+	}
+
+	function getAvatarUrl(): string | undefined {
+		const customIcon = getImage(data.publication ?? {}, data.did, 'icon');
+		if (customIcon) return customIcon;
+		return data.profile.avatar;
+	}
+
+	function handleFileInputClick() {
+		fileInput.click();
+	}
+</script>
+
+<div
+	class="mx-auto flex max-w-lg flex-col justify-between px-8 @5xl/wrapper:fixed @5xl/wrapper:h-screen @5xl/wrapper:w-1/4 @5xl/wrapper:max-w-none @5xl/wrapper:px-12"
+>
+	<div class="flex flex-col gap-4 pt-16 pb-8 @5xl/wrapper:h-screen @5xl/wrapper:pt-24">
+		<!-- Avatar with edit capability -->
+		<button
+			type="button"
+			class="group relative size-32 cursor-pointer overflow-hidden rounded-full @5xl/wrapper:size-44"
+			onmouseenter={() => (isHoveringAvatar = true)}
+			onmouseleave={() => (isHoveringAvatar = false)}
+			onclick={handleFileInputClick}
+		>
+			{#if getAvatarUrl()}
+				<img
+					class="border-base-400 dark:border-base-800 size-full rounded-full border object-cover"
+					src={getAvatarUrl()}
+					alt=""
+				/>
+			{:else}
+				<div class="bg-base-300 dark:bg-base-700 size-full rounded-full"></div>
+			{/if}
+
+			<!-- Hover overlay -->
+			<div
+				class={[
+					'absolute inset-0 flex items-center justify-center rounded-full bg-black/50 transition-opacity duration-200',
+					isHoveringAvatar ? 'opacity-100' : 'opacity-0'
+				]}
+			>
+				<div class="text-center text-sm text-white">
+					<svg
+						xmlns="http://www.w3.org/2000/svg"
+						fill="none"
+						viewBox="0 0 24 24"
+						stroke-width="1.5"
+						stroke="currentColor"
+						class="mx-auto mb-1 size-6"
+					>
+						<path
+							stroke-linecap="round"
+							stroke-linejoin="round"
+							d="M6.827 6.175A2.31 2.31 0 0 1 5.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 0 0-1.134-.175 2.31 2.31 0 0 1-1.64-1.055l-.822-1.316a2.192 2.192 0 0 0-1.736-1.039 48.774 48.774 0 0 0-5.232 0 2.192 2.192 0 0 0-1.736 1.039l-.821 1.316Z"
+						/>
+						<path
+							stroke-linecap="round"
+							stroke-linejoin="round"
+							d="M16.5 12.75a4.5 4.5 0 1 1-9 0 4.5 4.5 0 0 1 9 0ZM18.75 10.5h.008v.008h-.008V10.5Z"
+						/>
+					</svg>
+					<span>Click to change</span>
+				</div>
+			</div>
+		</button>
+
+		<input
+			bind:this={fileInput}
+			type="file"
+			accept="image/*"
+			class="hidden"
+			onchange={handleAvatarChange}
+		/>
+
+		<!-- Editable Name -->
+		{#if data.publication}
+			<div class="text-4xl font-bold wrap-anywhere">
+				<PlainTextEditor bind:contentDict={data.publication} key="name" placeholder="Your name" />
+			</div>
+		{/if}
+
+		<!-- Editable Description -->
+		<div class="scrollbar -mx-4 grow overflow-x-hidden overflow-y-scroll px-4">
+			{#if data.publication}
+				
+				
+					<MarkdownTextEditor
+						bind:editor={descriptionEditor}
+						bind:contentDict={data.publication}
+						key="description"
+						placeholder="Add a description... (supports markdown)"
+						class=""
+					/>
+			{/if}
+		</div>
+
+		<div class="h-10.5 w-1 @5xl/wrapper:hidden"></div>
+
+		<div class="hidden text-xs font-light @5xl/wrapper:block">
+			made with <a
+				href="https://blento.app"
+				target="_blank"
+				class="hover:text-accent-600 dark:hover:text-accent-400 font-medium transition-colors duration-200"
+				>blento</a
+			>
+		</div>
+	</div>
+</div>

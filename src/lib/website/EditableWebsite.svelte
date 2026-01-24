@@ -2,6 +2,7 @@
 	import { Button, toast, Toaster, Sidebar } from '@foxui/core';
 	import { COLUMNS, margin, mobileMargin } from '$lib';
 	import {
+		checkAndUploadImage,
 		clamp,
 		compactItems,
 		createEmptyCard,
@@ -14,7 +15,7 @@
 		setPositionOfNewItem,
 		validateLink
 	} from '../helper';
-	import Profile from './Profile.svelte';
+	import EditableProfile from './EditableProfile.svelte';
 	import type { Item, WebsiteData } from '../types';
 	import { innerWidth } from 'svelte/reactivity/window';
 	import EditingCard from '../cards/Card/EditingCard.svelte';
@@ -132,6 +133,11 @@
 		isSaving = true;
 
 		try {
+			// Upload profile icon if changed
+			if (data.publication?.icon) {
+				await checkAndUploadImage(data.publication, 'icon');
+			}
+
 			await savePage(data, items, publication);
 
 			publication = JSON.stringify(data.publication);
@@ -559,7 +565,7 @@
 		]}
 	>
 		{#if !getHideProfileSection(data)}
-			<Profile {data} />
+			<EditableProfile bind:data />
 		{/if}
 
 		<div

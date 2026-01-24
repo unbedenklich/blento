@@ -3,7 +3,7 @@
 	import type { Editor } from '@tiptap/core';
 	import { textAlignClasses, textSizeClasses, verticalAlignClasses } from '.';
 	import type { ContentComponentProps } from '../types';
-	import MarkdownTextEditor from '../utils/MarkdownTextEditor.svelte';
+	import MarkdownTextEditor from '$lib/components/MarkdownTextEditor.svelte';
 	import { cn } from '@foxui/core';
 
 	let { item = $bindable<Item>() }: ContentComponentProps = $props();
@@ -26,5 +26,5 @@
 		editor?.commands.focus('end');
 	}}
 >
-	<MarkdownTextEditor bind:item bind:editor />
+	<MarkdownTextEditor bind:contentDict={item.cardData} key="text" bind:editor />
 </div>

@@ -15,14 +15,18 @@
 
 	let {
 		editor = $bindable(),
-		item = $bindable(),
+		contentDict = $bindable(),
+		key = 'text',
 		placeholder = '',
-		defaultContent = ''
+		defaultContent = '',
+		class: className
 	}: {
 		editor: Editor | null;
-		item: Item;
+		contentDict: Record<string, any>;
+		key: string;
 		placeholder?: string;
 		defaultContent?: string;
+		class?: string;
 	} = $props();
 
 	const update = async () => {
@@ -36,7 +40,7 @@
 		});
 		const markdown = turndownService.turndown(html);
 
-		item.cardData.text = markdown;
+		contentDict[key] = markdown;
 	};
 
 	onMount(async () => {
@@ -45,7 +49,7 @@
 		let json: Content = '';
 
 		try {
-			let html = await marked.parse(item.cardData.text ?? (defaultContent as string));
+			let html = await marked.parse(contentDict[key] ?? (defaultContent as string));
 
 			// parse to json
 			json = generateJSON(html, [
@@ -100,7 +104,7 @@
 
 			editorProps: {
 				attributes: {
-					class: 'outline-none w-full'
+					class: 'outline-none w-full text-base-600 dark:text-base-400 prose dark:prose-invert prose-a:text-accent-500 prose-a:no-underline'
 				},
 				handleDOMEvents: { drop: () => false }
 			}
@@ -114,7 +118,7 @@
 	});
 </script>
 
-<div class="w-full cursor-text" bind:this={element}></div>
+<div class={["w-full cursor-text", className]} bind:this={element}></div>
 
 <style>
 	:global(.tiptap p.is-editor-empty:first-child::before) {
