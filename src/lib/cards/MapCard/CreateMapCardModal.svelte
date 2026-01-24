@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { Alert, Button, Input, Modal, Subheading } from '@foxui/core';
 	import type { CreationModalComponentProps } from '../types';
+	import { getZoomLevel } from '.';
 
 	let { item = $bindable(), oncreate, oncancel }: CreationModalComponentProps = $props();
 
@@ -19,10 +20,15 @@
 			if (response.ok) {
 				const data = await response.json();
 
+				console.log(data);
+
 				if (!data.lat || !data.lon) throw new Error('lat or lon not found');
 
 				item.cardData.lat = data.lat;
 				item.cardData.lon = data.lon;
+				item.cardData.name = data.display_name?.split(',')[0] || search;
+				item.cardData.type = data.class || 'city';
+				item.cardData.zoom = getZoomLevel(data.class);
 			} else {
 				throw new Error('response not ok');
 			}

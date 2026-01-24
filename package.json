@@ -70,6 +70,7 @@
 		"hls.js": "^1.6.15",
 		"leaflet": "^1.9.4",
 		"link-preview-js": "^4.0.0",
+		"mapbox-gl": "^3.18.1",
 		"marked": "^17.0.1",
 		"plyr": "^3.8.4",
 		"simple-icons": "^16.6.0",
