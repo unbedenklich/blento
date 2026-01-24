@@ -1,13 +1,23 @@
 <script lang="ts">
-	import type { Item } from '$lib/types';
+	import type { ContentComponentProps } from '../types';
+	import { qrOverlay } from '$lib/components/qr/qrOverlay.svelte';
 
-	let { item }: { item: Item } = $props();
+	let { item, isEditing }: ContentComponentProps = $props();
+
+	const profileUrl = $derived(`https://bsky.app/profile/${item.cardData.handle}`);
 </script>
 
 <a
 	target="_blank"
-	href="/{item.cardData.handle}"
+	href={profileUrl}
 	class="flex h-full w-full flex-col items-center justify-center gap-2 rounded-xl p-2 transition-colors duration-150"
+	use:qrOverlay={{
+		disabled: isEditing,
+		context: {
+			title: item.cardData.displayName || item.cardData.handle,
+			avatar: item.cardData.avatar
+		}
+	}}
 >
 	<img
 		src={item.cardData.avatar}

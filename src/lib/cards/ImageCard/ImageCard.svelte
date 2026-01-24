@@ -2,6 +2,7 @@
 	import { getDidContext } from '$lib/website/context';
 	import { getImageBlobUrl } from '$lib/atproto';
 	import type { ContentComponentProps } from '../types';
+	import { qrOverlay } from '$lib/components/qr/qrOverlay.svelte';
 
 	let { item = $bindable(), isEditing }: ContentComponentProps = $props();
 
@@ -33,6 +34,7 @@
 		class="absolute inset-0 z-50 h-full w-full"
 		target="_blank"
 		rel="noopener noreferrer"
+		use:qrOverlay={{ context: { title: item.cardData.hrefText ?? 'Learn more' } }}
 	>
 		<span class="sr-only">
 			{item.cardData.hrefText ?? 'Learn more'}
