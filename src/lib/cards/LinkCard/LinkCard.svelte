@@ -74,8 +74,7 @@
 			rel="noopener noreferrer"
 			use:qrOverlay={{
 				context: {
-					title: item.cardData.title,
-					favicon: item.cardData.favicon
+					title: item.cardData.title
 				}
 			}}
 		>

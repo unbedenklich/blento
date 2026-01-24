@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { getHexCSSVar } from '$lib/cards/helper';
 	import { onMount } from 'svelte';
 
 	let {
@@ -33,8 +34,8 @@
 	onMount(async () => {
 		if (!container) return;
 
-		// Use iconColor or default accent, ensure # prefix
-		const rawColor = iconColor || 'f6339a';
+		// Use iconColor or accent color, ensure # prefix
+		const rawColor = iconColor || getHexCSSVar('--color-accent-600');
 		const dotColor = rawColor.startsWith('#') ? rawColor : `#${rawColor}`;
 
 		const module = await import('qr-code-styling');
