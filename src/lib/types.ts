@@ -18,7 +18,6 @@ export type Item = {
 
 	color?: string;
 
-	 
 	cardData: any;
 
 	updatedAt?: string;
