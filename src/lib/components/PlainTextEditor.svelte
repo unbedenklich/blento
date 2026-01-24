@@ -11,13 +11,13 @@
 	let editor: Editor | null = $state(null);
 
 	let {
-		item = $bindable(),
+		contentDict = $bindable(),
 		key,
 		class: className,
 		placeholder = '',
 		defaultContent = ''
 	}: {
-		item: Item;
+		contentDict: Record<string, any>;
 		key: string;
 		class?: string;
 		placeholder?: string;
@@ -27,7 +27,7 @@
 	const update = async () => {
 		if (!editor) return;
 
-		item.cardData[key] = editor.getText();
+		contentDict[key] = editor.getText();
 	};
 
 	onMount(async () => {
@@ -53,11 +53,18 @@
 				update();
 			},
 
-			content: item.cardData[key] ?? defaultContent,
+			content: contentDict[key] ?? defaultContent,
 
 			editorProps: {
 				attributes: {
 					class: 'outline-none pointer-events-auto'
+				},
+				handleKeyDown: (_view, event) => {
+					// Prevent newlines by blocking Enter key
+					if (event.key === 'Enter') {
+						return true;
+					}
+					return false;
 				}
 			}
 		});

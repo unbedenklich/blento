@@ -8,7 +8,7 @@
 	import { AllCardDefinitions, CardDefinitionsByType, getColor } from '..';
 	import { COLUMNS } from '$lib';
 	import { getCanEdit, getIsMobile } from '$lib/website/context';
-	import PlainTextEditor from '../utils/PlainTextEditor.svelte';
+	import PlainTextEditor from '$lib/components/PlainTextEditor.svelte';
 
 	let colorsChoices = [
 		{ class: 'text-base-500', label: 'base' },
@@ -189,7 +189,7 @@
 			<PlainTextEditor
 				class="text-base-900 dark:text-base-50 w-fit text-base font-semibold"
 				key="label"
-				bind:item
+				bind:contentDict={item.cardData}
 				placeholder="Label"
 			/>
 		</div>

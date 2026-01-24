@@ -3,7 +3,7 @@
 	import { getImage } from '$lib/helper';
 	import { getDidContext, getIsMobile } from '$lib/website/context';
 	import type { ContentComponentProps } from '../types';
-	import PlainTextEditor from '../utils/PlainTextEditor.svelte';
+	import PlainTextEditor from '$lib/components/PlainTextEditor.svelte';
 
 	let { item = $bindable() }: ContentComponentProps = $props();
 
@@ -104,7 +104,7 @@
 				<PlainTextEditor
 					class="text-base-900 dark:text-base-50 line-clamp-2 text-lg font-bold"
 					key="title"
-					bind:item
+					bind:contentDict={item.cardData}
 					placeholder="Title here"
 				/>
 			{:else}

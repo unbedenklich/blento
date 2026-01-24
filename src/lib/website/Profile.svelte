@@ -5,7 +5,7 @@
 	import { BlueskyLogin } from '@foxui/social';
 	import { env } from '$env/dynamic/public';
 	import type { WebsiteData } from '$lib/types';
-	import { getDescription, getName } from '$lib/helper';
+	import { getDescription, getImage, getName } from '$lib/helper';
 	import { page } from '$app/state';
 	import type { ActorIdentifier } from '@atcute/lexicons';
 	import { qrOverlay } from '$lib/components/qr/qrOverlay.svelte';
@@ -42,7 +42,7 @@
 			{#if data.profile.avatar}
 				<img
 					class="border-base-400 dark:border-base-800 size-32 rounded-full border @5xl/wrapper:size-44"
-					src={data.profile.avatar}
+					src={getImage(data.publication, data.did, 'icon') || data.profile.avatar}
 					alt=""
 				/>
 			{:else}

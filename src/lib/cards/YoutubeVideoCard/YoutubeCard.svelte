@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { videoPlayer } from '../utils/YoutubeVideoPlayer.svelte';
+	import { videoPlayer } from '$lib/components/YoutubeVideoPlayer.svelte';
 	import type { ContentComponentProps } from '../types';
 
 	let { item }: ContentComponentProps = $props();
