@@ -5,7 +5,7 @@
 	import { BlueskyLogin } from '@foxui/social';
 	import { env } from '$env/dynamic/public';
 	import type { WebsiteData } from '$lib/types';
-	import { getDescription, getImage, getName } from '$lib/helper';
+	import { getDescription, getImage, getName, getProfilePosition } from '$lib/helper';
 	import { page } from '$app/state';
 	import type { ActorIdentifier } from '@atcute/lexicons';
 	import { qrOverlay } from '$lib/components/qr/qrOverlay.svelte';
@@ -23,13 +23,24 @@
 		`<a target="_blank" href="${href}" title="${title}">${text}</a>`;
 
 	const profileUrl = $derived(`${page.url.origin}/${data.handle}`);
+	const profilePosition = $derived(getProfilePosition(data));
 </script>
 
 <!-- lg:fixed lg:h-screen lg:w-1/4 lg:max-w-none lg:px-12 lg:pt-24 xl:w-1/3 -->
 <div
-	class="mx-auto flex max-w-lg flex-col justify-between px-8 @5xl/wrapper:fixed @5xl/wrapper:h-screen @5xl/wrapper:w-1/4 @5xl/wrapper:max-w-none @5xl/wrapper:px-12"
+	class={[
+		'mx-auto flex max-w-lg flex-col justify-between px-8',
+		profilePosition === 'side'
+			? '@5xl/wrapper:fixed @5xl/wrapper:h-screen @5xl/wrapper:w-1/4 @5xl/wrapper:max-w-none @5xl/wrapper:px-12'
+			: '@5xl/wrapper:max-w-4xl @5xl/wrapper:px-12'
+	]}
 >
-	<div class="flex flex-col gap-4 pt-16 pb-8 @5xl/wrapper:h-screen @5xl/wrapper:pt-24">
+	<div
+		class={[
+			'flex flex-col gap-4 pt-16 pb-8',
+			profilePosition === 'side' && '@5xl/wrapper:h-screen @5xl/wrapper:pt-24'
+		]}
+	>
 		<a
 			href={profileUrl}
 			class="w-fit"
@@ -39,14 +50,22 @@
 				}
 			}}
 		>
-			{#if data.profile.avatar}
+			{#if data.publication?.icon || data.profile.avatar}
 				<img
-					class="border-base-400 dark:border-base-800 size-32 rounded-full border @5xl/wrapper:size-44"
+					class={[
+						'border-base-400 dark:border-base-800 size-32 rounded-full border object-cover',
+						profilePosition === 'side' && '@5xl/wrapper:size-44'
+					]}
 					src={getImage(data.publication, data.did, 'icon') || data.profile.avatar}
 					alt=""
 				/>
 			{:else}
-				<div class="bg-base-300 dark:bg-base-700 size-32 rounded-full @5xl/wrapper:size-44"></div>
+				<div
+					class={[
+						'bg-base-300 dark:bg-base-700 size-32 rounded-full',
+						profilePosition === 'side' && '@5xl/wrapper:size-44'
+					]}
+				></div>
 			{/if}
 		</a>
 
@@ -85,7 +104,7 @@
 				>
 			</div>
 		{:else}
-			<div class="h-10.5 w-1 @5xl/wrapper:hidden"></div>
+			<div class={['h-10.5 w-1', profilePosition === 'side' && '@5xl/wrapper:hidden']}></div>
 		{/if}
 
 		{#if !env.PUBLIC_IS_SELFHOSTED && data.handle === 'blento.app' && user.profile?.handle !== data.handle}
@@ -123,7 +142,7 @@
 				</div>
 			{/if}
 		{/if}
-		<div class="hidden text-xs font-light @5xl/wrapper:block">
+		<div class={['hidden text-xs font-light', profilePosition === 'side' && '@5xl/wrapper:block']}>
 			made with <a
 				href="https://blento.app"
 				target="_blank"
