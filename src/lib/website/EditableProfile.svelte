@@ -220,6 +220,8 @@
 
 		<div class={['h-10.5 w-1', profilePosition === 'side' && '@5xl/wrapper:hidden']}></div>
 
-		<MadeWithBlento class="hidden {profilePosition === 'side' && '@5xl/wrapper:block'}" />
+		{#if !hideBlento}
+			<MadeWithBlento class="hidden {profilePosition === 'side' && '@5xl/wrapper:block'}" />
+		{/if}
 	</div>
 </div>
