@@ -572,6 +572,8 @@
 	favicon={data.profile.avatar ?? null}
 	title={getName(data)}
 	image={'/' + data.handle + '/og.png'}
+	accentColor={data.publication?.preferences?.accentColor}
+	baseColor={data.publication?.preferences?.baseColor}
 />
 
 <Account {data} />
