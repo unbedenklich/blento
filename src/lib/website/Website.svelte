@@ -6,7 +6,8 @@
 		getHideProfileSection,
 		getProfilePosition,
 		getName,
-		sortItems
+		sortItems,
+		getImage
 	} from '../helper';
 	import { innerWidth } from 'svelte/reactivity/window';
 	import { setDidContext, setHandleContext, setIsMobile } from './context';
@@ -56,7 +57,7 @@
 </script>
 
 <Head
-	favicon={data.profile.avatar ?? null}
+	favicon={getImage(data.publication, data.did, 'icon') || data.profile.avatar}
 	title={getName(data)}
 	image={'/' + data.handle + '/og.png'}
 	description={getDescription(data)}

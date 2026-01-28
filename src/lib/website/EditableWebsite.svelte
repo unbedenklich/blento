@@ -15,7 +15,8 @@
 		savePage,
 		scrollToItem,
 		setPositionOfNewItem,
-		validateLink
+		validateLink,
+		getImage
 	} from '../helper';
 	import EditableProfile from './EditableProfile.svelte';
 	import type { Item, WebsiteData } from '../types';
@@ -579,7 +580,7 @@
 />
 
 <Head
-	favicon={data.profile.avatar ?? null}
+	favicon={getImage(data.publication, data.did, 'icon') || data.profile.avatar}
 	title={getName(data)}
 	image={'/' + data.handle + '/og.png'}
 	accentColor={data.publication?.preferences?.accentColor}
