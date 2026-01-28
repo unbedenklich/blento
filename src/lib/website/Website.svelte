@@ -60,6 +60,8 @@
 	title={getName(data)}
 	image={'/' + data.handle + '/og.png'}
 	description={getDescription(data)}
+	accentColor={data.publication?.preferences?.accentColor}
+	baseColor={data.publication?.preferences?.baseColor}
 />
 
 <Context {data}>

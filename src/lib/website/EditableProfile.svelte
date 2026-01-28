@@ -5,11 +5,21 @@
 	import MarkdownTextEditor from '$lib/components/MarkdownTextEditor.svelte';
 	import { Avatar, Button } from '@foxui/core';
 	import { getIsMobile } from './context';
-	import type { Editor } from '@tiptap/core';
 	import MadeWithBlento from './MadeWithBlento.svelte';
+	import { SelectThemePopover } from '$lib/components/select-theme';
 
 	let { data = $bindable(), hideBlento = false }: { data: WebsiteData; hideBlento?: boolean } =
 		$props();
+
+	let accentColor = $derived(data.publication?.preferences?.accentColor ?? 'pink');
+	let baseColor = $derived(data.publication?.preferences?.baseColor ?? 'stone');
+
+	function updateTheme(newAccent: string, newBase: string) {
+		data.publication.preferences ??= {};
+		data.publication.preferences.accentColor = newAccent;
+		data.publication.preferences.baseColor = newBase;
+		data = { ...data };
+	}
 
 	let profilePosition = $derived(getProfilePosition(data));
 
@@ -130,11 +140,18 @@
 				{/if}
 			</Button>
 		{/if}
+
+		<!-- Theme selection -->
+		<SelectThemePopover
+			{accentColor}
+			{baseColor}
+			onchanged={(newAccent, newBase) => updateTheme(newAccent, newBase)}
+		/>
 	</div>
 
 	<div
 		class={[
-			'flex flex-col gap-4 pt-16 pb-8',
+			'flex flex-col gap-4 pt-16 pb-4',
 			profilePosition === 'side' && '@5xl/wrapper:h-screen @5xl/wrapper:pt-24'
 		]}
 	>
@@ -215,8 +232,6 @@
 				/>
 			{/if}
 		</div>
-
-		<div class={['h-10.5 w-1', profilePosition === 'side' && '@5xl/wrapper:hidden']}></div>
 
 		{#if !hideBlento}
 			<MadeWithBlento class="hidden {profilePosition === 'side' && '@5xl/wrapper:block'}" />
