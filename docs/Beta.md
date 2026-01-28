@@ -24,5 +24,3 @@
 - when adding images try to add them in a size that best fits aspect ratio
 
 - onboarding
-
-- fix invalid handle thing

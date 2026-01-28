@@ -46,4 +46,11 @@ export type AllowedCollection = ExtractCollectionBase<(typeof permissions.collec
 
 // which PDS to use for signup
 // ATTENTION: pds.rip is only for development, all accounts get deleted automatically after a week
-export const signUpPDS = dev ? 'https://pds.rip/' : 'https://selfhosted.social';
+const devPDS = 'https://pds.rip/';
+const prodPDS = 'https://selfhosted.social/';
+export const signUpPDS = dev ? devPDS : prodPDS;
+
+// where to redirect after oauth login/signup, e.g. /oauth/callback
+export const REDIRECT_PATH = '/oauth/callback';
+
+export const DOH_RESOLVER = 'https://mozilla.cloudflare-dns.com/dns-query';
