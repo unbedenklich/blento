@@ -1,18 +1,41 @@
 <script lang="ts">
+	import { goto } from '$app/navigation';
+	import { user } from '$lib/atproto';
+	import { getHandleOrDid } from '$lib/atproto/methods';
+	import { loginModalState } from '$lib/atproto/UI/LoginModal.svelte';
 	import type { ContentComponentProps } from '../types';
 
 	let { item }: ContentComponentProps = $props();
 </script>
 
-<a
-	href={item.cardData.href || '#'}
-	target="_blank"
-	rel="noopener noreferrer"
-	class="flex h-full w-full items-center justify-center p-4"
->
+{#snippet content()}
 	<span
-		class="bg-accent-500 hover:bg-accent-600 text-base-50 inline-flex items-center justify-center rounded-xl px-6 py-3 text-center font-semibold shadow-md transition-colors"
+		class="text-base-950 dark:text-base-50 line-clamp-1 inline-flex items-center justify-center px-4 text-2xl font-semibold"
 	>
 		{item.cardData.text || 'Click me'}
 	</span>
-</a>
+{/snippet}
+
+{#if item.cardData.href === '#login'}
+	<button
+		onclick={() => {
+			if (user.isLoggedIn && user.profile) {
+				goto('/' + getHandleOrDid(user.profile) + '/edit', {});
+			} else {
+				loginModalState.show();
+			}
+		}}
+		class="hover:bg-accent-100/20 flex h-full w-full cursor-pointer flex-col items-center justify-center transition-colors duration-100"
+	>
+		{@render content()}
+	</button>
+{:else}
+	<a
+		href={item.cardData.href || '#'}
+		target="_blank"
+		rel="noopener noreferrer"
+		class="hover:bg-accent-100/20 flex h-full w-full flex-col items-center justify-center transition-colors duration-100"
+	>
+		{@render content()}
+	</a>
+{/if}

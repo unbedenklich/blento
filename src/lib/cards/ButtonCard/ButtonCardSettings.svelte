@@ -7,7 +7,7 @@
 
 	function confirmUrl() {
 		let href = item.cardData.href?.trim() || '';
-		if (href && !/^https?:\/\//i.test(href)) {
+		if (href && !/^https?:\/\//i.test(href) && !href.startsWith('#')) {
 			href = 'https://' + href;
 		}
 		item.cardData.href = href;
@@ -17,12 +17,12 @@
 
 <div class="flex flex-col gap-3">
 	<div class="flex flex-col gap-1">
-		<Label for="button-href" class="text-sm">Link URL</Label>
+		<Label for="button-href" class="text-sm">Link</Label>
 		<Input
 			id="button-href"
 			bind:value={item.cardData.href}
 			placeholder="youtube.com"
-			class="text-sm"
+			class="text-sm mt-2"
 			onkeydown={(event) => {
 				if (event.code === 'Enter') {
 					event.preventDefault();
