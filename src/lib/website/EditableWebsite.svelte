@@ -24,7 +24,7 @@
 	import EditingCard from '../cards/Card/EditingCard.svelte';
 	import { AllCardDefinitions, CardDefinitionsByType } from '../cards';
 	import { tick, type Component } from 'svelte';
-	import type { CreationModalComponentProps } from '../cards/types';
+	import type { CardDefinition, CreationModalComponentProps } from '../cards/types';
 	import { dev } from '$app/environment';
 	import { setIsCoarse, setIsMobile, setSelectedCardId, setSelectCard } from './context';
 	import BaseEditingCard from '../cards/BaseCard/BaseEditingCard.svelte';
@@ -38,6 +38,7 @@
 	import { user } from '$lib/atproto';
 	import { launchConfetti } from '@foxui/visual';
 	import Controls from './Controls.svelte';
+	import CardCommand from '$lib/components/card-command/CardCommand.svelte';
 
 	let {
 		data
@@ -802,6 +803,8 @@
 	}
 
 	// $inspect(items);
+
+	let showCardCommand = $state(true);
 </script>
 
 <svelte:body
@@ -833,6 +836,29 @@
 <Account {data} />
 
 <Context {data}>
+	{#if !dev}
+		<div
+			class="bg-base-200 dark:bg-base-800 fixed inset-0 z-50 inline-flex h-full w-full items-center justify-center p-4 text-center lg:hidden"
+		>
+			Editing on mobile is not supported yet. Please use a desktop browser.
+		</div>
+	{/if}
+
+	<CardCommand
+		bind:open={showCardCommand}
+		onselect={(cardDef: CardDefinition) => {
+			if (cardDef.type === 'image') {
+				const input = document.getElementById('image-input') as HTMLInputElement;
+				if (input) {
+					input.click();
+					return;
+				}
+			} else {
+				newCard(cardDef.type);
+			}
+		}}
+	/>
+
 	<Controls bind:data />
 
 	{#if showingMobileView}
@@ -1068,6 +1094,8 @@
 		{save}
 		{handleImageInputChange}
 		{handleVideoInputChange}
+		showCardCommand={() => {
+			showCardCommand = true;
 		{selectedCard}
 		{isMobile}
 		{isCoarse}

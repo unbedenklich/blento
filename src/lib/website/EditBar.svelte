@@ -22,6 +22,7 @@
 		handleImageInputChange,
 		handleVideoInputChange,
 
+		showCardCommand
 		selectedCard = null,
 		isMobile = false,
 		isCoarse = false,
@@ -44,6 +45,7 @@
 		handleImageInputChange: (evt: Event) => void;
 		handleVideoInputChange: (evt: Event) => void;
 
+		showCardCommand: () => void;
 		selectedCard?: Item | null;
 		isMobile?: boolean;
 		isCoarse?: boolean;
@@ -128,6 +130,7 @@
 	accept="image/*"
 	onchange={handleImageInputChange}
 	class="hidden"
+	id="image-input"
 	multiple
 	bind:this={imageInputRef}
 />
@@ -484,6 +487,21 @@
 						<path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
 					</svg>
 				</Button>
+			{/if}
+
+			<Button size="iconLg" variant="ghost" class="backdrop-blur-none" onclick={showCardCommand}>
+				<svg
+					xmlns="http://www.w3.org/2000/svg"
+					fill="none"
+					viewBox="0 0 24 24"
+					stroke-width="1.5"
+					stroke="currentColor"
+				>
+					<path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+				</svg>
+			</Button>
+		</div>
+		<div class="flex items-center gap-2">
 			</div>
 		{/if}
 		<div class={['flex items-center gap-2', showMobileEditControls ? 'hidden' : '']}>
