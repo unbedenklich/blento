@@ -27,9 +27,7 @@ export const FriendsCardDefinition = {
 		if (allDids.size === 0) return [];
 
 		const profiles = await Promise.all(
-			Array.from(allDids).map((did) =>
-				getBlentoOrBskyProfile({ did }).catch(() => undefined)
-			)
+			Array.from(allDids).map((did) => getBlentoOrBskyProfile({ did }).catch(() => undefined))
 		);
 		return profiles.filter((p) => p && p.handle !== 'handle.invalid');
 	},

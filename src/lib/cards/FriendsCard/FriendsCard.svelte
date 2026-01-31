@@ -83,10 +83,7 @@
 		{@const olX = sizeClass === 'sm' ? 12 : sizeClass === 'md' ? 20 : 24}
 		{@const olY = sizeClass === 'sm' ? 8 : sizeClass === 'md' ? 12 : 16}
 		<div class="">
-			<div
-				class="flex flex-wrap items-center justify-center"
-				style="padding: {olY}px 0 0 {olX}px;"
-			>
+			<div class="flex flex-wrap items-center justify-center" style="padding: {olY}px 0 0 {olX}px;">
 				{#each profiles as profile (profile.did)}
 					<a
 						href={getLink(profile)}

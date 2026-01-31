@@ -42,6 +42,7 @@
 	import Controls from './Controls.svelte';
 	import CardCommand from '$lib/components/card-command/CardCommand.svelte';
 	import { shouldMirror, mirrorLayout } from './layout-mirror';
+	import { SvelteMap } from 'svelte/reactivity';
 
 	let {
 		data
@@ -262,7 +263,7 @@
 
 	function addAllCardTypes() {
 		const groupOrder = ['Core', 'Social', 'Media', 'Content', 'Visual', 'Utilities', 'Games'];
-		const grouped = new Map<string, CardDefinition[]>();
+		const grouped = new SvelteMap<string, CardDefinition[]>();
 
 		for (const def of AllCardDefinitions) {
 			if (!def.name) continue;

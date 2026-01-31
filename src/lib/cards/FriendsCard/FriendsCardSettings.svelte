@@ -25,9 +25,7 @@
 		const results = await Promise.all(
 			dids.map((did) => getBlentoOrBskyProfile({ did: did as Did }).catch(() => undefined))
 		);
-		profiles = results.filter(
-			(p): p is FriendsProfile => !!p && p.handle !== 'handle.invalid'
-		);
+		profiles = results.filter((p): p is FriendsProfile => !!p && p.handle !== 'handle.invalid');
 	}
 
 	function addFriend(actor: AppBskyActorDefs.ProfileViewBasic) {
@@ -68,11 +66,7 @@
 			{#each dids as did (did)}
 				{@const profile = getProfile(did)}
 				<div class="flex items-center gap-2">
-					<Avatar
-						src={profile?.avatar}
-						alt={profile?.handle ?? did}
-						class="size-6 rounded-full"
-					/>
+					<Avatar src={profile?.avatar} alt={profile?.handle ?? did} class="size-6 rounded-full" />
 					<span class="min-w-0 flex-1 truncate text-sm">
 						{profile?.handle ?? did}
 					</span>
@@ -90,11 +84,7 @@
 							stroke="currentColor"
 							class="size-3.5"
 						>
-							<path
-								stroke-linecap="round"
-								stroke-linejoin="round"
-								d="M6 18 18 6M6 6l12 12"
-							/>
+							<path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
 						</svg>
 					</Button>
 				</div>
