@@ -17,7 +17,9 @@
 		save,
 
 		handleImageInputChange,
-		handleVideoInputChange
+		handleVideoInputChange,
+
+		showCardCommand
 	}: {
 		data: WebsiteData;
 		linkValue: string;
@@ -33,6 +35,8 @@
 
 		handleImageInputChange: (evt: Event) => void;
 		handleVideoInputChange: (evt: Event) => void;
+
+		showCardCommand: () => void;
 	} = $props();
 
 	let linkPopoverOpen = $state(false);
@@ -59,6 +63,7 @@
 	accept="image/*"
 	onchange={handleImageInputChange}
 	class="hidden"
+	id="image-input"
 	multiple
 	bind:this={imageInputRef}
 />
@@ -220,7 +225,7 @@
 				</Button>
 			{/if}
 
-			<Button size="iconLg" variant="ghost" class="backdrop-blur-none" popovertarget="mobile-menu">
+			<Button size="iconLg" variant="ghost" class="backdrop-blur-none" onclick={showCardCommand}>
 				<svg
 					xmlns="http://www.w3.org/2000/svg"
 					fill="none"

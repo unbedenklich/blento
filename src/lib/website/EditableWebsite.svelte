@@ -24,7 +24,7 @@
 	import EditingCard from '../cards/Card/EditingCard.svelte';
 	import { AllCardDefinitions, CardDefinitionsByType } from '../cards';
 	import { tick, type Component } from 'svelte';
-	import type { CreationModalComponentProps } from '../cards/types';
+	import type { CardDefinition, CreationModalComponentProps } from '../cards/types';
 	import { dev } from '$app/environment';
 	import { setIsMobile } from './context';
 	import BaseEditingCard from '../cards/BaseCard/BaseEditingCard.svelte';
@@ -38,6 +38,7 @@
 	import { user } from '$lib/atproto';
 	import { launchConfetti } from '@foxui/visual';
 	import Controls from './Controls.svelte';
+	import CardCommand from '$lib/components/card-command/CardCommand.svelte';
 
 	let {
 		data
@@ -645,6 +646,8 @@
 	}
 
 	// $inspect(items);
+
+	let showCardCommand = $state(true);
 </script>
 
 <svelte:body
@@ -683,6 +686,21 @@
 			Editing on mobile is not supported yet. Please use a desktop browser.
 		</div>
 	{/if}
+
+	<CardCommand
+		bind:open={showCardCommand}
+		onselect={(cardDef: CardDefinition) => {
+			if (cardDef.type === 'image') {
+				const input = document.getElementById('image-input') as HTMLInputElement;
+				if (input) {
+					input.click();
+					return;
+				}
+			} else {
+				newCard(cardDef.type);
+			}
+		}}
+	/>
 
 	<Controls bind:data />
 
@@ -911,6 +929,9 @@
 		{save}
 		{handleImageInputChange}
 		{handleVideoInputChange}
+		showCardCommand={() => {
+			showCardCommand = true;
+		}}
 	/>
 
 	<Toaster />
