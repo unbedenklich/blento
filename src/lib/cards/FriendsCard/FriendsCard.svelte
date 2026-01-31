@@ -80,41 +80,27 @@
 			</span>
 		{/if}
 	{:else}
-		<div class="flex items-center justify-center">
-			{#each visibleProfiles as profile, i (profile.did)}
-				<a
-					href={getLink(profile)}
-					class="accent:ring-accent-500/30 relative rounded-full ring-2 ring-white transition-transform hover:z-10 hover:scale-110 dark:ring-neutral-900"
-					class:-ml-3={i > 0 && sizeClass === 'sm'}
-					class:-ml-5={i > 0 && sizeClass === 'md'}
-					class:-ml-6={i > 0 && sizeClass === 'lg'}
-				>
-					<Avatar
-						src={profile.avatar}
-						alt={profile.handle}
-						class={sizeClass === 'sm' ? 'size-12' : sizeClass === 'md' ? 'size-16' : 'size-20'}
-					/>
-				</a>
-			{/each}
-			{#if overflowCount > 0}
-				<div
-					class="bg-base-200 dark:bg-base-700 accent:bg-accent-400/30 accent:ring-accent-500/30 relative flex items-center justify-center rounded-full ring-2 ring-white dark:ring-neutral-900"
-					class:-ml-3={sizeClass === 'sm'}
-					class:-ml-5={sizeClass === 'md'}
-					class:-ml-6={sizeClass === 'lg'}
-					class:size-12={sizeClass === 'sm'}
-					class:size-16={sizeClass === 'md'}
-					class:size-20={sizeClass === 'lg'}
-				>
-					<span
-						class="text-base-600 dark:text-base-300 accent:text-accent-200 font-semibold"
-						class:text-sm={sizeClass === 'sm'}
-						class:text-base={sizeClass === 'md' || sizeClass === 'lg'}
+		{@const olX = sizeClass === 'sm' ? 12 : sizeClass === 'md' ? 20 : 24}
+		{@const olY = sizeClass === 'sm' ? 8 : sizeClass === 'md' ? 12 : 16}
+		<div class="">
+			<div
+				class="flex flex-wrap items-center justify-center"
+				style="padding: {olY}px 0 0 {olX}px;"
+			>
+				{#each profiles as profile (profile.did)}
+					<a
+						href={getLink(profile)}
+						class="accent:ring-accent-500 relative block rounded-full ring-2 ring-white transition-transform hover:scale-110 dark:ring-neutral-900"
+						style="margin: -{olY}px 0 0 -{olX}px;"
 					>
-						+{overflowCount}
-					</span>
-				</div>
-			{/if}
+						<Avatar
+							src={profile.avatar}
+							alt={profile.handle}
+							class={sizeClass === 'sm' ? 'size-12' : sizeClass === 'md' ? 'size-16' : 'size-20'}
+						/>
+					</a>
+				{/each}
+			</div>
 		</div>
 	{/if}
 </div>
