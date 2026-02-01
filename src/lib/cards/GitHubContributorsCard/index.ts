@@ -43,6 +43,21 @@ export const GitHubContributorsCardDefinition = {
 		}
 		return contributorsData;
 	},
+	onUrlHandler: (url, item) => {
+		const match = url.match(/github\.com\/([^/]+)\/([^/]+)/);
+		if (!match) return null;
+
+		item.cardData.owner = match[1];
+		item.cardData.repo = match[2];
+
+		item.w = 4;
+		item.h = 2;
+		item.mobileW = 8;
+		item.mobileH = 4;
+
+		return item;
+	},
+	urlHandlerPriority: 1,
 	allowSetColor: true,
 	defaultColor: 'base',
 	minW: 2,
