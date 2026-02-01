@@ -30,6 +30,8 @@ export const StandardSiteDocumentListCardDefinition = {
 						rkey: siteParts.rkey
 					});
 
+					if (!publicationRecord.value) continue;
+
 					publications[site] = publicationRecord.value.url as string;
 				}
 
@@ -39,7 +41,7 @@ export const StandardSiteDocumentListCardDefinition = {
 			}
 		}
 
-		return records;
+		return records.filter((r) => r.value?.href);
 	},
 
 	name: 'Blog Posts',
