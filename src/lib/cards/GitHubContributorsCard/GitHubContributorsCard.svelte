@@ -13,6 +13,7 @@
 	let owner: string = $derived(item.cardData.owner ?? '');
 	let repo: string = $derived(item.cardData.repo ?? '');
 	let repoKey: string = $derived(owner && repo ? `${owner}/${repo}` : '');
+	let layout: 'hex' | 'grid' = $derived(item.cardData.layout ?? 'hex');
 
 	let serverContributors: GitHubContributor[] = $derived.by(() => {
 		if (!repoKey) return [];
@@ -66,10 +67,17 @@
 		const colsNarrow = Math.max(1, colsWide - 1);
 		const maxRows = Math.floor((availH + GAP) / (size + GAP));
 		let capacity = 0;
+		// Pattern: narrow, wide, narrow, wide... (row 0 is narrow)
 		for (let r = 0; r < maxRows; r++) {
-			capacity += r % 2 === 0 ? colsWide : colsNarrow;
+			capacity += r % 2 === 0 ? colsNarrow : colsWide;
 		}
 		return capacity;
+	}
+
+	function gridCapacity(size: number, availW: number, availH: number): number {
+		const cols = Math.floor((availW + GAP) / (size + GAP));
+		const rows = Math.floor((availH + GAP) / (size + GAP));
+		return cols * rows;
 	}
 
 	let computedSize = $derived.by(() => {
@@ -77,16 +85,17 @@
 
 		let lo = MIN_SIZE;
 		let hi = MAX_SIZE;
+		const capacityFn = layout === 'hex' ? hexCapacity : gridCapacity;
 
 		while (lo <= hi) {
 			const mid = Math.floor((lo + hi) / 2);
-			const availW = containerWidth - mid;
-			const availH = containerHeight - mid;
+			const availW = containerWidth - (layout === 'hex' ? mid : 0);
+			const availH = containerHeight - (layout === 'hex' ? mid : 0);
 			if (availW <= 0 || availH <= 0) {
 				hi = mid - 1;
 				continue;
 			}
-			if (hexCapacity(mid, availW, availH) >= totalItems) {
+			if (capacityFn(mid, availW, availH) >= totalItems) {
 				lo = mid + 1;
 			} else {
 				hi = mid - 1;
@@ -96,22 +105,33 @@
 		return Math.max(MIN_SIZE, hi);
 	});
 
-	let padding = $derived(computedSize / 2);
+	let padding = $derived(layout === 'hex' ? computedSize / 2 : 0);
 
 	let rows = $derived.by(() => {
-		const availW = containerWidth - computedSize;
+		const availW = containerWidth - (layout === 'hex' ? computedSize : 0);
 		if (availW <= 0) return [] as GitHubContributor[][];
-		const colsWide = Math.floor((availW + GAP) / (computedSize + GAP));
-		const colsNarrow = Math.max(1, colsWide - 1);
 
+		const colsWide = Math.floor((availW + GAP) / (computedSize + GAP));
+		const colsNarrow = layout === 'hex' ? Math.max(1, colsWide - 1) : colsWide;
+
+		// Calculate row sizes from bottom up, then reverse for incomplete row at top
+		const rowSizes: number[] = [];
+		let remaining = namedContributors.length;
+		let rowNum = 0;
+		while (remaining > 0) {
+			const cols = layout === 'hex' && rowNum % 2 === 0 ? colsNarrow : colsWide;
+			rowSizes.push(Math.min(cols, remaining));
+			remaining -= cols;
+			rowNum++;
+		}
+		rowSizes.reverse();
+
+		// Fill rows with contributors in order
 		const result: GitHubContributor[][] = [];
 		let idx = 0;
-		let rowNum = 0;
-		while (idx < namedContributors.length) {
-			const cols = rowNum % 2 === 0 ? colsWide : colsNarrow;
-			result.push(namedContributors.slice(idx, idx + cols));
-			idx += cols;
-			rowNum++;
+		for (const size of rowSizes) {
+			result.push(namedContributors.slice(idx, idx + size));
+			idx += size;
 		}
 		return result;
 	});
