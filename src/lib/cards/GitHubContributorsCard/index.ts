@@ -1,6 +1,7 @@
 import type { CardDefinition } from '../types';
 import GitHubContributorsCard from './GitHubContributorsCard.svelte';
 import CreateGitHubContributorsCardModal from './CreateGitHubContributorsCardModal.svelte';
+import GitHubContributorsCardSettings from './GitHubContributorsCardSettings.svelte';
 
 export type GitHubContributor = {
 	username: string;
@@ -15,6 +16,7 @@ export const GitHubContributorsCardDefinition = {
 	type: 'githubContributors',
 	contentComponent: GitHubContributorsCard,
 	creationModalComponent: CreateGitHubContributorsCardModal,
+	settingsComponent: GitHubContributorsCardSettings,
 	createNew: (card) => {
 		card.w = 4;
 		card.h = 2;
