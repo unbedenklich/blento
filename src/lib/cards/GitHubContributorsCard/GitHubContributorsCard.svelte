@@ -13,7 +13,8 @@
 	let owner: string = $derived(item.cardData.owner ?? '');
 	let repo: string = $derived(item.cardData.repo ?? '');
 	let repoKey: string = $derived(owner && repo ? `${owner}/${repo}` : '');
-	let layout: 'hex' | 'grid' = $derived(item.cardData.layout ?? 'hex');
+	let layout: 'grid' | 'cinema' = $derived(item.cardData.layout ?? 'grid');
+	let shape: 'square' | 'circle' = $derived(item.cardData.shape ?? 'square');
 
 	let serverContributors: GitHubContributor[] = $derived.by(() => {
 		if (!repoKey) return [];
@@ -61,7 +62,7 @@
 	const MIN_SIZE = 16;
 	const MAX_SIZE = 120;
 
-	function hexCapacity(size: number, availW: number, availH: number): number {
+	function cinemaCapacity(size: number, availW: number, availH: number): number {
 		const colsWide = Math.floor((availW + GAP) / (size + GAP));
 		if (colsWide < 1) return 0;
 		const colsNarrow = Math.max(1, colsWide - 1);
@@ -85,12 +86,12 @@
 
 		let lo = MIN_SIZE;
 		let hi = MAX_SIZE;
-		const capacityFn = layout === 'hex' ? hexCapacity : gridCapacity;
+		const capacityFn = layout === 'cinema' ? cinemaCapacity : gridCapacity;
 
 		while (lo <= hi) {
 			const mid = Math.floor((lo + hi) / 2);
-			const availW = containerWidth - (layout === 'hex' ? mid / 2 : 0);
-			const availH = containerHeight - (layout === 'hex' ? mid / 2 : 0);
+			const availW = containerWidth - (layout === 'cinema' ? mid / 2 : 0);
+			const availH = containerHeight - (layout === 'cinema' ? mid / 2 : 0);
 			if (availW <= 0 || availH <= 0) {
 				hi = mid - 1;
 				continue;
@@ -105,21 +106,21 @@
 		return Math.max(MIN_SIZE, hi);
 	});
 
-	let padding = $derived(layout === 'hex' ? computedSize / 4 : 0);
+	let padding = $derived(layout === 'cinema' ? computedSize / 4 : 0);
 
 	let rows = $derived.by(() => {
-		const availW = containerWidth - (layout === 'hex' ? computedSize / 4 : 0);
+		const availW = containerWidth - (layout === 'cinema' ? computedSize / 4 : 0);
 		if (availW <= 0) return [] as GitHubContributor[][];
 
 		const colsWide = Math.floor((availW + GAP) / (computedSize + GAP));
-		const colsNarrow = layout === 'hex' ? Math.max(1, colsWide - 1) : colsWide;
+		const colsNarrow = layout === 'cinema' ? Math.max(1, colsWide - 1) : colsWide;
 
 		// Calculate row sizes from bottom up, then reverse for incomplete row at top
 		const rowSizes: number[] = [];
 		let remaining = namedContributors.length;
 		let rowNum = 0;
 		while (remaining > 0) {
-			const cols = layout === 'hex' && rowNum % 2 === 0 ? colsNarrow : colsWide;
+			const cols = layout === 'cinema' && rowNum % 2 === 0 ? colsNarrow : colsWide;
 			rowSizes.push(Math.min(cols, remaining));
 			remaining -= cols;
 			rowNum++;
@@ -139,6 +140,8 @@
 	let textSize = $derived(
 		computedSize < 24 ? 'text-[10px]' : computedSize < 40 ? 'text-xs' : 'text-sm'
 	);
+
+	let shapeClass = $derived(shape === 'circle' ? 'rounded-full' : 'rounded-lg');
 </script>
 
 <div
@@ -162,18 +165,18 @@
 								href="https://github.com/{contributor.username}"
 								target="_blank"
 								rel="noopener noreferrer"
-								class="accent:ring-accent-500 block rounded-full ring-2 ring-white transition-transform hover:scale-110 dark:ring-neutral-900"
+								class="accent:ring-accent-500 block {shapeClass} ring-2 ring-white transition-transform hover:scale-110 dark:ring-neutral-900"
 							>
 								{#if contributor.avatarUrl}
 									<img
 										src={contributor.avatarUrl}
 										alt={contributor.username}
-										class="rounded-full object-cover"
+										class="{shapeClass} object-cover"
 										style="width: {computedSize}px; height: {computedSize}px;"
 									/>
 								{:else}
 									<div
-										class="bg-base-200 dark:bg-base-700 accent:bg-accent-400 flex items-center justify-center rounded-full"
+										class="bg-base-200 dark:bg-base-700 accent:bg-accent-400 flex items-center justify-center {shapeClass}"
 										style="width: {computedSize}px; height: {computedSize}px;"
 									>
 										<span
