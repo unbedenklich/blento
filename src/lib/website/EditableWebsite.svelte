@@ -829,7 +829,18 @@
 			}
 		}
 
-		fixCollisions(items, activeDragElement.item, isMobile);
+		fixCollisions(
+			items,
+			activeDragElement.item,
+			isMobile,
+			false,
+			draggedOrigPos
+				? {
+						x: isMobile ? draggedOrigPos.mobileX : draggedOrigPos.x,
+						y: isMobile ? draggedOrigPos.mobileY : draggedOrigPos.y
+					}
+				: undefined
+		);
 	}
 
 	function touchEnd() {
@@ -1376,7 +1387,18 @@
 						}
 
 						// Now fix collisions (with compacting)
-						fixCollisions(items, activeDragElement.item, isMobile);
+						fixCollisions(
+							items,
+							activeDragElement.item,
+							isMobile,
+							false,
+							draggedOrigPos
+								? {
+										x: isMobile ? draggedOrigPos.mobileX : draggedOrigPos.x,
+										y: isMobile ? draggedOrigPos.mobileY : draggedOrigPos.y
+									}
+								: undefined
+						);
 					}
 				}}
 				ondragend={async (e) => {

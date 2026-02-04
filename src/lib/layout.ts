@@ -66,10 +66,14 @@ export function fixCollisions(
 	items: Item[],
 	item: Item,
 	mobile: boolean = false,
-	skipCompact: boolean = false
+	skipCompact: boolean = false,
+	originalPos?: { x: number; y: number }
 ) {
 	if (mobile) item.mobileX = clamp(item.mobileX, 0, COLUMNS - item.mobileW);
 	else item.x = clamp(item.x, 0, COLUMNS - item.w);
+
+	const targetX = mobile ? item.mobileX : item.x;
+	const targetY = mobile ? item.mobileY : item.y;
 
 	let layout = toLayout(items, mobile);
 
@@ -80,16 +84,14 @@ export function fixCollisions(
 		return;
 	}
 
-	layout = moveElement(
-		layout,
-		movedLayoutItem,
-		movedLayoutItem.x,
-		movedLayoutItem.y,
-		true,
-		false,
-		'vertical',
-		COLUMNS
-	);
+	// If we know the original position, set it on the layout item so
+	// moveElement can detect direction and push items properly.
+	if (originalPos) {
+		movedLayoutItem.x = originalPos.x;
+		movedLayoutItem.y = originalPos.y;
+	}
+
+	layout = moveElement(layout, movedLayoutItem, targetX, targetY, true, false, 'vertical', COLUMNS);
 
 	if (!skipCompact) layout = verticalCompactor.compact(layout, COLUMNS) as LayoutItem[];
 
