@@ -146,8 +146,7 @@
 				metrics.actualBoundingBoxDescent !== undefined
 			) {
 				shadowCtx.textBaseline = 'alphabetic';
-				textY =
-					(height + metrics.actualBoundingBoxAscent - metrics.actualBoundingBoxDescent) / 2;
+				textY = (height + metrics.actualBoundingBoxAscent - metrics.actualBoundingBoxDescent) / 2;
 			} else {
 				shadowCtx.textBaseline = 'middle';
 			}
@@ -206,7 +205,7 @@
 			ctx.globalCompositeOperation = 'source-over';
 
 			// Add overlay: brighten in dark mode, darken in light mode
-			ctx.strokeStyle = isDark ? 'rgba(255, 255, 255, 0.15)' : 'rgba(0, 0, 0, 0.2)';
+			ctx.strokeStyle = isDark ? 'rgba(255, 255, 255, 0.3)' : 'rgba(0, 0, 0, 0.4)';
 			ctx.strokeText(text, width / 2, textY);
 		} else {
 			ctx.strokeStyle = 'rgba(255, 255, 255, 0.3)';
