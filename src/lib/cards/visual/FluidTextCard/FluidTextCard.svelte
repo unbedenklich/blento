@@ -7,6 +7,7 @@
 	let container: HTMLDivElement;
 	let fluidCanvas: HTMLCanvasElement;
 	let maskCanvas: HTMLCanvasElement;
+	let shadowCanvas: HTMLCanvasElement;
 	let animationId: number;
 	let splatIntervalId: ReturnType<typeof setInterval>;
 	let maskDrawRaf = 0;
@@ -123,6 +124,42 @@
 		if (width === 0 || height === 0) return;
 
 		const dpr = window.devicePixelRatio || 1;
+		const isDark = document.documentElement.classList.contains('dark');
+
+		// Draw shadow behind fluid (light mode only, transparent only)
+		if (shadowCanvas && item.color === 'transparent' && !isDark) {
+			shadowCanvas.width = width * dpr;
+			shadowCanvas.height = height * dpr;
+			const shadowCtx = shadowCanvas.getContext('2d')!;
+			shadowCtx.setTransform(1, 0, 0, 1, 0, 0);
+			shadowCtx.clearRect(0, 0, shadowCanvas.width, shadowCanvas.height);
+			shadowCtx.scale(dpr, dpr);
+
+			const textFontSize = Math.round(width * fontSize);
+			shadowCtx.font = `${fontWeight} ${textFontSize}px ${fontFamily}`;
+			shadowCtx.textAlign = 'center';
+
+			const metrics = shadowCtx.measureText(text);
+			let textY = height / 2;
+			if (
+				metrics.actualBoundingBoxAscent !== undefined &&
+				metrics.actualBoundingBoxDescent !== undefined
+			) {
+				shadowCtx.textBaseline = 'alphabetic';
+				textY =
+					(height + metrics.actualBoundingBoxAscent - metrics.actualBoundingBoxDescent) / 2;
+			} else {
+				shadowCtx.textBaseline = 'middle';
+			}
+
+			// Draw darkened text shape behind fluid
+			shadowCtx.fillStyle = getHexCSSVar('--color-base-200');
+			shadowCtx.fillText(text, width / 2, textY);
+		} else if (shadowCanvas) {
+			// Clear shadow canvas in dark mode
+			shadowCanvas.width = 1;
+			shadowCanvas.height = 1;
+		}
 
 		maskCanvas.width = width * dpr;
 		maskCanvas.height = height * dpr;
@@ -133,7 +170,6 @@
 		ctx.clearRect(0, 0, maskCanvas.width, maskCanvas.height);
 		ctx.scale(dpr, dpr);
 
-		const isDark = document.documentElement.classList.contains('dark');
 		const bgColor =
 			item.color === 'transparent'
 				? getHexCSSVar(isDark ? '--color-base-900' : '--color-base-50')
@@ -1738,6 +1774,7 @@
 		? 'bg-base-50 dark:bg-base-900'
 		: 'bg-black'}"
 >
+	<canvas bind:this={shadowCanvas} class="absolute h-full w-full dark:hidden"></canvas>
 	<canvas bind:this={fluidCanvas} class="absolute h-full w-full"></canvas>
 	<canvas bind:this={maskCanvas} class="absolute h-full w-full"></canvas>
 </div>
