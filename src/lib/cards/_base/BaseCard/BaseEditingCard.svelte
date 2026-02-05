@@ -193,17 +193,15 @@
 	]}
 	{...rest}
 >
-	{#if isCoarse?.() ? !isSelected : !item.cardData?.locked}
+	{#if isCoarse?.() && !isSelected}
 		<!-- svelte-ignore a11y_click_events_have_key_events -->
 		<div
 			role="button"
 			tabindex="-1"
-			class={['absolute inset-0', isCoarse?.() ? 'z-20 cursor-pointer' : 'cursor-grab']}
+			class="absolute inset-0 z-20 cursor-pointer"
 			onclick={(e) => {
-				if (isCoarse?.()) {
-					e.stopPropagation();
-					selectCard?.(item.id);
-				}
+				e.stopPropagation();
+				selectCard?.(item.id);
 			}}
 		></div>
 	{/if}

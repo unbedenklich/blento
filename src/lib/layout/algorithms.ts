@@ -6,9 +6,9 @@ import {
 	getFirstCollision,
 	verticalCompactor
 } from 'react-grid-layout/core';
-import type { Item } from './types';
+import type { Item } from '../types';
 import { COLUMNS } from '$lib';
-import { clamp } from './helper';
+import { clamp } from '../helper';
 
 function toLayoutItem(item: Item, mobile: boolean): LayoutItem {
 	if (mobile) {
