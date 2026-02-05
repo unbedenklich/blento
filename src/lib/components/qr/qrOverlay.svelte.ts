@@ -18,13 +18,21 @@ export function qrOverlay(
 	const LONG_PRESS_DURATION = 500;
 	let longPressTimer: ReturnType<typeof setTimeout> | null = null;
 	let isLongPress = false;
+	let touchActive = false;
+
+	// Prevent iOS link preview on long-press
+	const originalCallout = node.style.getPropertyValue('-webkit-touch-callout');
+	node.style.setProperty('-webkit-touch-callout', 'none');
 
 	function getHref() {
 		return params.href || (node as HTMLAnchorElement).href || '';
 	}
 
-	function startLongPress() {
+	function startLongPress(e: PointerEvent) {
 		if (params.disabled) return;
+		// Only start long press for primary button (touch/left-click), not right-click
+		if (e.button !== 0) return;
+		touchActive = e.pointerType === 'touch';
 		isLongPress = false;
 		longPressTimer = setTimeout(() => {
 			isLongPress = true;
@@ -37,19 +45,28 @@ export function qrOverlay(
 			clearTimeout(longPressTimer);
 			longPressTimer = null;
 		}
+		touchActive = false;
 	}
 
 	function handleClick(e: MouseEvent) {
 		if (isLongPress) {
 			e.preventDefault();
 			isLongPress = false;
+			return;
+		}
+
+		// Shift-click opens QR modal
+		if (e.shiftKey && !params.disabled) {
+			e.preventDefault();
+			openModal?.(getHref(), params.context ?? {});
 		}
 	}
 
-	function handleContextMenu(e: MouseEvent) {
-		if (params.disabled) return;
-		e.preventDefault();
-		openModal?.(getHref(), params.context ?? {});
+	function handleContextMenu(e: Event) {
+		// Prevent context menu during touch to avoid iOS preview
+		if (touchActive || isLongPress) {
+			e.preventDefault();
+		}
 	}
 
 	node.addEventListener('pointerdown', startLongPress);
@@ -71,6 +88,12 @@ export function qrOverlay(
 			node.removeEventListener('click', handleClick);
 			node.removeEventListener('contextmenu', handleContextMenu);
 			cancelLongPress();
+			// Restore original style
+			if (originalCallout) {
+				node.style.setProperty('-webkit-touch-callout', originalCallout);
+			} else {
+				node.style.removeProperty('-webkit-touch-callout');
+			}
 		}
 	};
 }
