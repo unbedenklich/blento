@@ -2,7 +2,7 @@ import { json } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
 
 const LEADERBOARD_API_URL =
-	'https://npmx-likes-leaderboard-api-production.up.railway.app/api/leaderboard/likes';
+	'https://npmx-likes-leaderboard-api-production.up.railway.app/api/leaderboard/likes?limit=20';
 
 export const GET: RequestHandler = async ({ platform }) => {
 	const cacheKey = '#npmx-leaderboard:likes';

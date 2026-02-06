@@ -41,6 +41,7 @@ import { GitHubContributorsCardDefinition } from './social/GitHubContributorsCar
 import { ProductHuntCardDefinition } from './social/ProductHuntCard';
 import { KickstarterCardDefinition } from './social/KickstarterCard';
 import { NpmxLikesCardDefinition } from './social/NpmxLikesCard';
+import { NpmxLikesLeaderboardCardDefinition } from './social/NpmxLikesLeaderboardCard';
 // import { Model3DCardDefinition } from './visual/Model3DCard';
 
 export const AllCardDefinitions = [
@@ -86,7 +87,8 @@ export const AllCardDefinitions = [
 	GitHubContributorsCardDefinition,
 	ProductHuntCardDefinition,
 	KickstarterCardDefinition,
-	NpmxLikesCardDefinition
+	NpmxLikesCardDefinition,
+	NpmxLikesLeaderboardCardDefinition
 ] as const;
 
 export const CardDefinitionsByType = AllCardDefinitions.reduce(
