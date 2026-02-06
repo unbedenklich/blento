@@ -2,7 +2,7 @@
 	import type { Item } from '$lib/types';
 	import { onMount } from 'svelte';
 	import { getAdditionalUserData, getDidContext, getHandleContext } from '$lib/website/context';
-	import { CardDefinitionsByType } from '../..';
+	import { NpmxLikesCardDefinition } from '.';
 	import { RelativeTime } from '@foxui/time';
 
 	interface NpmxLike {
@@ -25,7 +25,7 @@
 	onMount(async () => {
 		if (feed) return;
 
-		feed = (await CardDefinitionsByType[item.cardType]?.loadData?.([], {
+		feed = (await NpmxLikesCardDefinition.loadData?.([], {
 			did,
 			handle
 		})) as NpmxLike[] | undefined;
