@@ -21,10 +21,10 @@ export const LastFMProfileCardDefinition = {
 				const response = await fetch(
 					`https://blento.app/api/lastfm?method=user.getInfo&user=${encodeURIComponent(username)}`
 				);
-				if (response.ok) {
-					const result = await response.json();
-					allData[`lastfmProfile:${username}`] = result?.user;
-				}
+				if (!response.ok) continue;
+				const text = await response.text();
+				const result = JSON.parse(text);
+				allData[`lastfmProfile:${username}`] = result?.user;
 			} catch (error) {
 				console.error('Failed to fetch Last.fm profile:', error);
 			}
