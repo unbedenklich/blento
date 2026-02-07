@@ -42,6 +42,10 @@ import { ProductHuntCardDefinition } from './social/ProductHuntCard';
 import { KickstarterCardDefinition } from './social/KickstarterCard';
 import { NpmxLikesCardDefinition } from './social/NpmxLikesCard';
 import { NpmxLikesLeaderboardCardDefinition } from './social/NpmxLikesLeaderboardCard';
+import { LastFMRecentTracksCardDefinition } from './media/LastFMCard/LastFMRecentTracksCard';
+import { LastFMTopTracksCardDefinition } from './media/LastFMCard/LastFMTopTracksCard';
+import { LastFMTopAlbumsCardDefinition } from './media/LastFMCard/LastFMTopAlbumsCard';
+import { LastFMProfileCardDefinition } from './media/LastFMCard/LastFMProfileCard';
 // import { Model3DCardDefinition } from './visual/Model3DCard';
 
 export const AllCardDefinitions = [
@@ -88,7 +92,11 @@ export const AllCardDefinitions = [
 	ProductHuntCardDefinition,
 	KickstarterCardDefinition,
 	NpmxLikesCardDefinition,
-	NpmxLikesLeaderboardCardDefinition
+	NpmxLikesLeaderboardCardDefinition,
+	LastFMRecentTracksCardDefinition,
+	LastFMTopTracksCardDefinition,
+	LastFMTopAlbumsCardDefinition,
+	LastFMProfileCardDefinition
 ] as const;
 
 export const CardDefinitionsByType = AllCardDefinitions.reduce(

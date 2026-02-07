@@ -10,8 +10,23 @@
 	} = $props();
 
 	const allAccentColors = [
-		'red', 'orange', 'amber', 'yellow', 'lime', 'green', 'emerald', 'teal',
-		'cyan', 'sky', 'blue', 'indigo', 'violet', 'purple', 'fuchsia', 'pink', 'rose'
+		'red',
+		'orange',
+		'amber',
+		'yellow',
+		'lime',
+		'green',
+		'emerald',
+		'teal',
+		'cyan',
+		'sky',
+		'blue',
+		'indigo',
+		'violet',
+		'purple',
+		'fuchsia',
+		'pink',
+		'rose'
 	];
 	const allBaseColors = ['gray', 'stone', 'zinc', 'neutral', 'slate'];
 
