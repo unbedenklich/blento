@@ -25,10 +25,10 @@ export const LastFMTopTracksCardDefinition = {
 				const response = await fetch(
 					`https://blento.app/api/lastfm?method=user.getTopTracks&user=${encodeURIComponent(username)}&period=${period}&limit=50`
 				);
-				if (response.ok) {
-					const result = await response.json();
-					allData[`lastfmTopTracks:${username}:${period}`] = result?.toptracks?.track ?? [];
-				}
+				if (!response.ok) continue;
+				const text = await response.text();
+				const result = JSON.parse(text);
+				allData[`lastfmTopTracks:${username}:${period}`] = result?.toptracks?.track ?? [];
 			} catch (error) {
 				console.error('Failed to fetch Last.fm top tracks:', error);
 			}

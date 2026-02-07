@@ -21,10 +21,10 @@ export const LastFMRecentTracksCardDefinition = {
 				const response = await fetch(
 					`https://blento.app/api/lastfm?method=user.getRecentTracks&user=${encodeURIComponent(username)}&limit=50`
 				);
-				if (response.ok) {
-					const result = await response.json();
-					allData[`lastfmRecentTracks:${username}`] = result?.recenttracks?.track ?? [];
-				}
+				if (!response.ok) continue;
+				const text = await response.text();
+				const result = JSON.parse(text);
+				allData[`lastfmRecentTracks:${username}`] = result?.recenttracks?.track ?? [];
 			} catch (error) {
 				console.error('Failed to fetch Last.fm recent tracks:', error);
 			}

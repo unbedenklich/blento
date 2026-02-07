@@ -25,10 +25,10 @@ export const LastFMTopAlbumsCardDefinition = {
 				const response = await fetch(
 					`https://blento.app/api/lastfm?method=user.getTopAlbums&user=${encodeURIComponent(username)}&period=${period}&limit=50`
 				);
-				if (response.ok) {
-					const result = await response.json();
-					allData[`lastfmTopAlbums:${username}:${period}`] = result?.topalbums?.album ?? [];
-				}
+				if (!response.ok) continue;
+				const text = await response.text();
+				const result = JSON.parse(text);
+				allData[`lastfmTopAlbums:${username}:${period}`] = result?.topalbums?.album ?? [];
 			} catch (error) {
 				console.error('Failed to fetch Last.fm top albums:', error);
 			}
