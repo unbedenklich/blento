@@ -91,7 +91,7 @@
 			{/each}
 		</div>
 		<div
-			class="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-12 bg-linear-to-t from-base-200 from-40% to-transparent dark:from-base-950 accent:from-accent-500"
+			class="from-base-200 dark:from-base-950 accent:from-accent-500 pointer-events-none absolute inset-x-0 bottom-0 z-10 h-12 bg-linear-to-t from-40% to-transparent"
 		></div>
 		<div
 			class="text-base-500 dark:text-base-400 accent:text-white/60 bg-base-200 dark:bg-base-950/50 accent:bg-accent-500/20 relative z-10 flex shrink-0 items-center justify-center gap-3 px-4 pb-3 text-xs"

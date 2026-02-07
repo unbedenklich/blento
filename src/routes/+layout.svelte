@@ -1,6 +1,7 @@
 <script lang="ts">
 	import '../app.css';
 
+	import { Tooltip } from 'bits-ui';
 	import { ThemeToggle, Toaster, toast } from '@foxui/core';
 	import { onMount } from 'svelte';
 	import { initClient } from '$lib/atproto';
@@ -28,7 +29,9 @@
 	});
 </script>
 
-{@render children()}
+<Tooltip.Provider delayDuration={300}>
+	{@render children()}
+</Tooltip.Provider>
 
 <ThemeToggle class="fixed top-2 left-2 z-10" />
 <Toaster />
