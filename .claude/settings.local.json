@@ -27,7 +27,8 @@
 			"Bash(pnpm remove:*)",
 			"Bash(grep:*)",
 			"Bash(find:*)",
-			"Bash(npx prettier:*)"
+			"Bash(npx prettier:*)",
+			"Bash(node -e:*)"
 		]
 	}
 }
