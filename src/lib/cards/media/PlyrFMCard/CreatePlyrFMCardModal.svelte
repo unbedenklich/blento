@@ -1,0 +1,50 @@
+<script lang="ts">
+	import { Alert, Button, Input, Modal, Subheading } from '@foxui/core';
+	import type { CreationModalComponentProps } from '../../types';
+	import { toPlyrFMEmbedUrl } from './index';
+
+	let { item = $bindable(), oncreate, oncancel }: CreationModalComponentProps = $props();
+
+	let errorMessage = $state('');
+
+	function checkUrl() {
+		errorMessage = '';
+
+		const embedUrl = toPlyrFMEmbedUrl(item.cardData.href);
+
+		if (!embedUrl) {
+			errorMessage = 'Please enter a valid plyr.fm track URL';
+			return false;
+		}
+
+		item.cardData.href = embedUrl;
+
+		return true;
+	}
+</script>
+
+<Modal open={true} closeButton={false}>
+	<Subheading>Enter a Plyr.fm track URL</Subheading>
+	<Input
+		bind:value={item.cardData.href}
+		placeholder="https://plyr.fm/track/..."
+		onkeydown={(e) => {
+			if (e.key === 'Enter' && checkUrl()) oncreate();
+		}}
+	/>
+
+	{#if errorMessage}
+		<Alert type="error" title="Invalid URL"><span>{errorMessage}</span></Alert>
+	{/if}
+
+	<div class="mt-4 flex justify-end gap-2">
+		<Button onclick={oncancel} variant="ghost">Cancel</Button>
+		<Button
+			onclick={() => {
+				if (checkUrl()) oncreate();
+			}}
+		>
+			Create
+		</Button>
+	</div>
+</Modal>
