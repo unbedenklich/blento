@@ -38,7 +38,7 @@
 			zoom={item.cardData.zoom}
 			{center}
 			attributionControl={false}
-			dragPan={false}
+			dragPan={isEditing}
 			dragRotate={false}
 			keyboard={false}
 			touchZoomRotate={true}
